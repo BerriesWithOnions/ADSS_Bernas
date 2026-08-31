@@ -1,0 +1,101 @@
+---
+config:
+  layout: elk
+title: AT-20 v2 — Mapa de dados dos fluxos (corrigido)
+---
+flowchart LR
+ subgraph Users["Usuários mapeados"]
+        Artist["Artista"]
+        Gallery["Galeria"]
+        Certifier["Certificador"]
+        Collector["Colecionador"]
+        Admin["Administrador"]
+  end
+ subgraph Inputs["Dados necessários para uso"]
+        Identity["Dados de identidade<br>nome, e-mail, documento, carteira digital"]
+        Artwork["Dados da obra<br>título, autor, técnica, dimensões, data, imagens"]
+        Ownership["Dados de titularidade<br>proprietário, contrato, nota fiscal, direitos"]
+        Certification["Dados de certificação<br>laudo, certificador, data, validade, assinatura"]
+        Transaction["Dados de transação<br>origem, destino, preço, data, hash"]
+        Access["Dados de acesso<br>credenciais, permissões, consentimentos"]
+  end
+ subgraph Flows["Fluxos do produto"]
+        Registration["Registrar obra"]
+        Authentication["Emitir chave de autenticidade"]
+        Validation["Validar autenticidade"]
+        Transfer["Transferir titularidade"]
+        Consultation["Consultar proveniência"]
+        Administration["Administrar plataforma"]
+  end
+ subgraph Storage["Armazenamento e registros"]
+        OffChain["Base privada<br>dados pessoais e documentos"]
+        Decentralized["Armazenamento descentralizado<br>imagens, metadados e laudos"]
+        Blockchain["Blockchain<br>hashes, chaves e eventos"]
+        Audit["Trilha de auditoria"]
+  end
+    Artist -- fornece --> Identity
+    Gallery -- fornece --> Identity
+    Certifier -- fornece --> Identity
+    Collector -- fornece --> Identity
+    Admin -- utiliza --> Access
+    Artist -- cadastra --> Artwork
+    Gallery -- cadastra ou gerencia --> Artwork
+    Artist -- comprova --> Ownership
+    Gallery -- comprova --> Ownership
+    Certifier -- emite --> Certification
+    Collector -- informa destino --> Transaction
+    Gallery -- informa transferência --> Transaction
+    Identity --> Registration
+    Artwork --> Registration
+    Ownership --> Registration & Transfer
+    Registration --> Authentication
+    Certification --> Authentication
+    Authentication -- gera --> Blockchain
+    Artwork -- gera hash --> Blockchain
+    Artwork -- armazena arquivo --> Decentralized
+    Certification -- armazena laudo --> Decentralized
+    Identity -- protege dados sensíveis --> OffChain
+    Collector --> Validation & Consultation
+    Certifier -- solicita revalidação --> Validation
+    Artwork --> Validation
+    Certification --> Validation
+    Blockchain --> Validation
+    Validation -- registra resultado --> Audit
+    Transaction --> Transfer
+    Transfer -- hash da transação --> Blockchain
+    Transfer -- dados comerciais --> OffChain
+    Transfer -- atualiza --> Ownership
+    Transfer -- registra evento --> Audit
+    Gallery --> Consultation
+    Artwork --> Consultation
+    Certification --> Consultation
+    Blockchain --> Consultation
+    Audit --> Consultation
+    Admin --> Administration
+    Administration --> Access & Audit & OffChain
+
+     Artist:::user
+     Gallery:::user
+     Certifier:::user
+     Collector:::user
+     Admin:::user
+     Identity:::data
+     Artwork:::data
+     Ownership:::data
+     Certification:::data
+     Transaction:::data
+     Access:::data
+     Registration:::flow
+     Authentication:::flow
+     Validation:::flow
+     Transfer:::flow
+     Consultation:::flow
+     Administration:::flow
+     OffChain:::storage
+     Decentralized:::storage
+     Blockchain:::storage
+     Audit:::storage
+    classDef user stroke:#818cf8,fill:#eef2ff
+    classDef data stroke:#22d3ee,fill:#ecfeff
+    classDef flow stroke:#2dd4bf,fill:#f0fdfa
+    classDef storage stroke:#fb923c,fill:#fff7ed
