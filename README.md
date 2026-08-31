@@ -1,4 +1,4 @@
-# ADSS_Bernas
+# ADSS - REGRAS DE NEGÓCIO E REQUISITOS
 
 Códigos da matéria de Análise e Desenvolvimento de Sistemas de Software com o professor João Choma Neto
 
