@@ -26,10 +26,10 @@ RN-008 → RF-006, RF-008
 **Título:** Condições para emissão de chave de autenticidade.  
 **Descrição:** Uma chave de autenticidade só pode ser emitida para obras que possuam registro completo e certificação válida.  
 **Origem:** Processo de autenticação da plataforma.  
-**Stakeholders envolvidos:** Artista, Certificador, Colecionador.  
+**Stakeholders envolvidos:** Artista, Certificador, Colecionador, Galeria.  
 **Condição:** Aplicada sempre que uma obra passar pelo fluxo de emissão de chave de autenticidade.  
 **Regra:** A chave só pode ser gerada quando a obra estiver registrada (RF-002 concluído) e possuir certificação emitida por certificador credenciado (RN-004).  
-**Exceções:** Galerias com selo de certificadora própria podem dispensar certificação externa.  
+**Exceções:** Galerias com selo de certificadora própria podem dispensar certificação externa mediante averiguação da validade da certificação própria.  
 **Dados envolvidos:** Dados da obra, dados de certificação, registro de titularidade.  
 **Prioridade:** Crítica  
 **Status:** Proposto  
