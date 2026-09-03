@@ -10,7 +10,7 @@
 **Prioridade:** Crítica  
 **Status:** Proposto  
 **Requisitos relacionados:** RF-001  
-**Casos de teste relacionados:** CT-017  
+**Casos de teste relacionados:** -- 
 
 ---
 
@@ -24,7 +24,7 @@
 **Prioridade:** Alta  
 **Status:** Proposto  
 **Requisitos relacionados:** RF-007  
-**Casos de teste relacionados:** CT-018  
+**Casos de teste relacionados:** --
 
 ---
 
@@ -38,7 +38,7 @@
 **Prioridade:** Alta  
 **Status:** Proposto  
 **Requisitos relacionados:** RF-002, RF-004, RF-006  
-**Casos de teste relacionados:** CT-019  
+**Casos de teste relacionados:** --  
 
 ---
 
@@ -52,7 +52,7 @@
 **Prioridade:** Crítica  
 **Status:** Proposto  
 **Requisitos relacionados:** RF-005, RF-006, RF-008  
-**Casos de teste relacionados:** CT-020  
+**Casos de teste relacionados:** --  
 
 ---
 
@@ -66,4 +66,4 @@
 **Prioridade:** Alta  
 **Status:** Proposto  
 **Requisitos relacionados:** RF-005, RF-007  
-**Casos de teste relacionados:** CT-021  
+**Casos de teste relacionados:** --  
