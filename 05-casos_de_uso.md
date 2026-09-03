@@ -16,7 +16,7 @@ Critério aplicado: um ator é qualquer artefato (pessoa ou sistema) **externo**
 | **Colecionador** | Adquire obras, consulta proveniência, solicita transferências | Pessoa externa que consome e movimenta as obras registradas |
 | **Administrador** | Credencia certificadores, gerencia acessos, audita operações | Pessoa externa responsável pela governança da plataforma |
 
-**Observação:** blockchain, storage descentralizado e base privada (off-chain) **não são atores** — são destinos/repositórios internos que os fluxos do sistema escrevem. O sistema consome esses serviços; eles não usam o sistema (relação inversa, conforme regra do professor).
+**Observação:** blockchain, storage descentralizado e base privada (off-chain) **não são atores** — são destinos/repositórios internos que os fluxos do sistema escrevem. O sistema consome esses serviços; eles não usam o sistema.
 
 ---
 
