@@ -1,5 +1,3 @@
-
-<<<<<<< HEAD
 ## 3. Requisitos Não Funcionais (RNF)
 
 ### RNF-001 — Proteção de dados pessoais
@@ -44,7 +42,7 @@
 
 ---
 
-### RNF-004 — Imutabilidade da trilha de auditoria
+### RNF-004 — Imutabilidade da trilha de auditoria  
 
 **Categoria:** Segurança  
 **Descrição:** Os registros de auditoria não podem ser alterados ou removidos após sua criação, por nenhum papel de usuário, incluindo Administrador.  
@@ -52,8 +50,6 @@
 **Métrica/Critério mensurável:** Testes de tentativa de alteração/remoção de log devem sempre falhar e gerar novo evento de auditoria.  
 **Escopo:** Todo o sistema.  
 **Prioridade:** Crítica  
-=======
->>>>>>> refs/remotes/origin/main
 **Status:** Proposto  
 **Requisitos relacionados:** RF-005, RF-006, RF-008  
 **Casos de teste relacionados:** CT-020  
@@ -71,7 +67,3 @@
 **Status:** Proposto  
 **Requisitos relacionados:** RF-005, RF-007  
 **Casos de teste relacionados:** CT-021  
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/main
