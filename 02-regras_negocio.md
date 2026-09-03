@@ -125,3 +125,19 @@
 **Prioridade:** Crítica  
 **Status:** Proposto  
 **Requisitos relacionados:** RF-005, RF-006, RF-008  
+
+---
+
+### RN-009 — Emissão de certificações vitalícias
+
+**Título:** Condições para expedição de certificações sem data de expiração.  
+**Descrição:** Uma certificação emitida por certificadores de nível máximo, caso solicitadas pelo contratante, pode ter duração vitalícia.  
+**Origem:** Regulamento de certificação de obras de arte.  
+**Stakeholders envolvidos:** Certificador, Colecionador.  
+**Condição:** Aplicada na emissão de chave de autenticidade e na validação de autenticidade.  
+**Regra:** O sistema deve verificar a data de validade da certificação; se vitalícia, a operação deve ser autorizada.  
+**Exceções:** Caso a obra possua certificação exterior permanente, o certificado deve ser passado por auditoria para posterior emissão de certificação vitalícia na plataforma.  
+**Dados envolvidos:** Dados de certificação.
+**Prioridade:** Alta  
+**Status:** Proposto  
+**Requisitos relacionados:** RF-004, RF-005  
