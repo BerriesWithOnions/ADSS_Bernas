@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/main
 ## 2. Requisitos Funcionais (RF)
 
 ### RF-001 — Cadastrar dados de identidade
@@ -190,3 +194,8 @@
 **Casos de uso relacionados:** UC-008  
 **Tarefas relacionadas:** TASK-011, TASK-012  
 **Casos de teste relacionados:** CT-015, CT-016  
+<<<<<<< HEAD
+=======
+
+---
+>>>>>>> refs/remotes/origin/main
