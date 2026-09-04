@@ -1,18 +1,15 @@
 # Casos de Uso — Autentificador de Galeria de Arte
 
-Documento de trabalho para revisão. Baseado em `geral.md` (Regras de Negócio / Requisitos Não Funcionais) e no `diagrama_mermaid.mmd` (mapa de dados dos fluxos) já desenvolvidos.
-
----
 
 ## 1. Identificação dos atores
 
-Critério aplicado: um ator é qualquer artefato (pessoa ou sistema) **externo** ao sistema que interage **diretamente** com ele para atingir um objetivo, sem intermediação de outro ator. Elementos que vivem *dentro* do sistema (blockchain, storage descentralizado, base off-chain, trilha de auditoria) não são atores — são armazenamento/infraestrutura que o sistema usa, não usuários do sistema.
+Critério aplicado: um ator é qualquer artefato (pessoa ou sistema) **externo** que interage **diretamente** com o sistema para atingir um objetivo, sem interagir consigo e sem intermediação de outro ator. Elementos que vivem *dentro* do sistema (blockchain, storage descentralizado, base off-chain, trilha de auditoria) não são atores — são armazenamento/infraestrutura que o sistema usa, não usuários do sistema.
 
 | Ator | Papel no negócio | Por que é ator |
 |---|---|---|
 | **Artista** | Cadastra obras, comprova titularidade, acompanha autenticidade | Pessoa externa que aciona o sistema para registrar/consultar suas obras |
 | **Galeria** | Cadastra/gerencia obras de terceiros, intermedia transferências | Pessoa jurídica externa que opera obras em nome de artistas/colecionadores |
-| **Certificador** | Emite laudos técnicos de autenticidade | Pessoa/entidade externa credenciada que fornece certificação ao sistema |
+| **Certificador** | Emite laudos técnicos de autenticidade | Entidade externa que credenciada e fornece certificação ao sistema |
 | **Colecionador** | Adquire obras, consulta proveniência, solicita transferências | Pessoa externa que consome e movimenta as obras registradas |
 | **Administrador** | Credencia certificadores, gerencia acessos, audita operações | Pessoa externa responsável pela governança da plataforma |
 
@@ -161,7 +158,7 @@ Critério aplicado: um ator é qualquer artefato (pessoa ou sistema) **externo**
 
 **Pós-condições:** Obra possui chave de autenticidade ativa registrada na blockchain.
 
-**Regras de negócio relacionadas:** RN-001 (condições de emissão), RN-006 (validade temporal da certificação).
+**Regras de negócio relacionadas:** RN-001 (condições de emissão), RN-006 (validade temporal da certificação), RN-009 (validade atemporal da certificação).
 
 ---
 
@@ -224,7 +221,7 @@ Critério aplicado: um ator é qualquer artefato (pessoa ou sistema) **externo**
 
 **Objetivo:** Consultar o histórico e a proveniência de uma obra.
 
-**Pré-condições:** Ator autenticado (UC-01). *(a definir se esta consulta será pública/sem login — ver observação abaixo)*
+**Pré-condições:** Ator autenticado (UC-01). Deve realizar login na plataforma.
 
 **Fluxo principal:**
 1. Ator solicita a consulta de proveniência de uma obra.
@@ -311,12 +308,3 @@ Critério aplicado: um ator é qualquer artefato (pessoa ou sistema) **externo**
 **Pós-condições:** Registros de auditoria apresentados ao Administrador.
 
 **Regras de negócio relacionadas:** RN-003 (exceção de visualização completa para Administrador), RN-008 (auditoria obrigatória), RNF-004 (imutabilidade da trilha).
-
----
-
-## 4. Pontos em aberto para a próxima revisão
-
-1. **UC-08 (Consultar proveniência):** definir se exige login ou é pública/anônima.
-2. **UC-05:** confirmar se a exceção de "selo de certificadora própria" (RN-001) deve virar um fluxo alternativo explícito ou um caso de uso à parte (ex.: "Averiguar certificação própria de galeria").
-3. **UC-03/UC-07 exceções administrativas** (reemissão de registro, transferência judicial/por herança): avaliar se merecem virar casos de uso próprios do Administrador, já que hoje estão apenas citados como exceção dentro de UC-03 e UC-07.
-4. Confirmar a numeração final dos RF-001 a RF-008 junto ao restante da equipe/documento de requisitos funcionais, já que este arquivo (`geral.md`) trouxe apenas RN e RNF — os RF foram inferidos a partir do índice de rastreabilidade e do diagrama.
