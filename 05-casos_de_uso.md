@@ -138,7 +138,7 @@ Critério aplicado: um ator é qualquer artefato (pessoa ou sistema) **externo**
 
 ### UC-05 — Emitir chave de autenticidade
 
-**Ator:** Artista, Galeria
+**Ator:** Artista, Galeria, Administrador
 
 **Objetivo:** Gerar a chave de autenticidade de uma obra, formalizando-a como autêntica na plataforma.
 
@@ -236,7 +236,6 @@ Critério aplicado: um ator é qualquer artefato (pessoa ou sistema) **externo**
 
 **Regras de negócio relacionadas:** RN-003 (restrição de dados pessoais em consultas públicas).
 
-**Observação para revisão:** o RN-003 diz "consulta pública" — vale decidir se este caso de uso exige login (UC-01) ou se é acessível sem autenticação. Se for público, o Colecionador/Galeria/Artista deixam de ser pré-condição obrigatória e a consulta pode ser feita por qualquer visitante.
 
 ---
 

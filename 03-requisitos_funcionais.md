@@ -77,7 +77,7 @@
 **Descrição:** O sistema deve emitir uma chave de autenticidade para obras com registro e certificação válidos.  
 **Objetivo:** Fornecer prova criptográfica de autenticidade da obra.  
 **Stakeholders:** Artista, Certificador, Colecionador.  
-**Ator principal:** Administrador (acionado após RF-002 e RF-003).  
+**Ator principal:** Administrador, Galeria  
 **Pré-condições:** Registro concluído (RF-002); certificação válida e não expirada (RN-001, RN-006).  
 **Entradas:** Dados de registro, dados de certificação.  
 **Processamento esperado:** Verificar validade da certificação e gerar evento de autenticidade na blockchain.  
@@ -148,9 +148,9 @@
 ### RF-007 — Consultar proveniência
 
 **Descrição:** O sistema deve permitir que qualquer usuário consulte o histórico de proveniência de uma obra, sem expor dados pessoais dos envolvidos.  
-**Objetivo:** Dar transparência pública ao histórico da obra.  
-**Stakeholders:** Colecionador, Galeria, público em geral.  
-**Ator principal:** Colecionador ou Galeria.  
+**Objetivo:** Dar transparência ao histórico da obra.  
+**Stakeholders:** Colecionador, Galeria, Artista, usuários em geral.  
+**Ator principal:** Colecionador, Galeria, Administrador.  
 **Pré-condições:** Obra registrada.  
 **Entradas:** Identificador da obra.  
 **Processamento esperado:** Buscar dados da obra, eventos na blockchain e trilha de auditoria, filtrando dados de identidade (RN-003).  
