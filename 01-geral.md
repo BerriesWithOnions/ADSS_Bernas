@@ -1,36 +1,94 @@
-# Regras de Negócio e Requisitos do Produto - Autentificador de Galeria de Arte
+# Regras de Negócio e Requisitos do Produto — Autentificador de Galeria de Arte
 
-Plataforma de autenticidade e proveniência de obras de arte via blockchain.
+Plataforma de registro, certificação, autenticidade e proveniência de obras de arte, com rastreabilidade por blockchain.
 
----
+> **Versão:** 0.1 — documentação proposta, sujeita a validação pelo grupo. Este arquivo consolida `02-regras_negocio.md`, `03-requisitos_funcionais.md`, `04-requisitos_nao_funcionais.md` e `05-casos_de_uso.md`. As descrições individuais foram preservadas.
+
+## Visão geral da documentação
+
+| Tipo | Quantidade | Identificadores |
+|---|---:|---|
+| Regras de negócio (RN) | 13 | RN-001 a RN-013 |
+| Requisitos funcionais (RF) | 16 | RF-001 a RF-016 |
+| Requisitos não funcionais (RNF) | 11 | RNF-001 a RNF-011 |
+| Casos de uso (UC) | 18 | UC-01 a UC-18 |
 
 ## Índice de rastreabilidade
 
-```text
-RN-001 → RF-004
-RN-002 → RF-006
-RN-003 → RF-007
-RN-004 → RF-003
-RN-005 → RF-002
-RN-006 → RF-004, RF-005
-RN-007 → RF-008
-RN-008 → RF-006, RF-008
-```
+As tabelas abaixo reproduzem as relações declaradas nos arquivos de origem. Associações nos dois sentidos (RN ↔ RF) ainda precisam de revisão, pois nem todas são recíprocas.
+
+### Regras de negócio → requisitos funcionais
+
+| Regra | Requisitos funcionais relacionados |
+|---|---|
+| RN-001 — Emissão de chave de autenticidade | RF-002, RF-003, RF-004 |
+| RN-002 — Transferência de titularidade | RF-006, RF-012 |
+| RN-003 — Privacidade da pessoa consultada | RF-007, RF-011 |
+| RN-004 — Credenciamento de certificadores | RF-003, RF-008, RF-014 |
+| RN-005 — Identificação e unicidade do registro | RF-002 |
+| RN-006 — Validade da chave e verificação de autenticidade | RF-004, RF-005 |
+| RN-007 — Perfis, permissões e acesso público | RF-001, RF-008, RF-009, RF-011, RF-016 |
+| RN-008 — Auditoria de operações sensíveis | RF-002, RF-004, RF-006, RF-008, RF-010, RF-015 |
+| RN-009 — Privacidade da pessoa que consulta | RF-007, RF-011, RF-015 |
+| RN-010 — Certificação vitalícia e renovação do registro | RF-013, RF-014 |
+| RN-011 — Vínculo de autoria e portfólio | RF-002, RF-016 |
+| RN-012 — Desativação/exclusão de contas | RF-010, RF-015 |
+| RN-013 — Solicitação de aquisição | RF-006, RF-012 |
+
+### Requisitos funcionais → casos de uso
+
+| Requisito funcional | Casos de uso relacionados |
+|---|---|
+| RF-001 — Cadastrar conta e autenticar usuários | UC-01, UC-02 |
+| RF-002 — Registrar obra | UC-03 |
+| RF-003 — Emitir laudo de certificação | UC-04 |
+| RF-004 — Emitir chave de autenticidade | UC-05 |
+| RF-005 — Validar autenticidade da obra | UC-06 |
+| RF-006 — Transferir titularidade | UC-07 |
+| RF-007 — Consultar proveniência | UC-08 |
+| RF-008 — Administrar plataforma, credenciamentos e permissões | UC-09, UC-10 |
+| RF-009 — Validar identidade de usuário | UC-12 |
+| RF-010 — Desativar ou excluir conta | UC-13 |
+| RF-011 — Consultar catálogo público | UC-14 |
+| RF-012 — Solicitar aquisição de obra | UC-15 |
+| RF-013 — Renovar registro de obra | UC-16 |
+| RF-014 — Solicitar certificação vitalícia | UC-17 |
+| RF-015 — Consultar trilha de auditoria | UC-11 |
+| RF-016 — Gerenciar portfólio da galeria | UC-18 |
+
+### Requisitos não funcionais → requisitos funcionais e casos de uso
+
+| Requisito não funcional | Requisitos funcionais | Casos de uso |
+|---|---|---|
+| RNF-001 — Proteção de dados pessoais | RF-001, RF-009, RF-010 | UC-02, UC-12, UC-13 |
+| RNF-002 — Imutabilidade dos eventos auditáveis | RF-015, RF-006 | UC-07, UC-11 |
+| RNF-003 — Desempenho da consulta de proveniência | RF-007 | UC-08 |
+| RNF-004 — Confirmação de eventos em blockchain | RF-002, RF-004, RF-006 | UC-03, UC-05, UC-07 |
+| RNF-005 — Retenção e permanência da auditoria | RF-010, RF-015 | UC-11, UC-13 |
+| RNF-006 — Disponibilidade da plataforma | RF-001, RF-007, RF-011 | UC-01, UC-08, UC-14 |
+| RNF-007 — Restrição de acesso de usuários não cadastrados | RF-011, RF-007 | UC-08, UC-14 |
+| RNF-008 — Proteção de dados sensíveis sem login | RF-007, RF-011 | UC-08, UC-14 |
+| RNF-009 — Integridade e backup dos arquivos | RF-002, RF-003 | UC-03, UC-04 |
+| RNF-010 — Auditoria de alterações de permissões | RF-008, RF-015 | UC-09, UC-10, UC-11 |
+| RNF-011 — Proteção de credenciais e sessão | RF-001, RF-010 | UC-01, UC-13 |
+
+**Ponto de revisão:** os vínculos RN/RF são assimétricos em alguns registros; o índice não acrescenta relações não informadas nem altera os quatro documentos originais. Consulte também [`00-pontos_de_atencao.md`](00-pontos_de_atencao.md) para premissas do projeto.
 
 ---
 
 ## 1. Regras de Negócio (RN)
 
+
 ### RN-001 — Emissão de chave de autenticidade
 
-**Título:** Condições para emissão de chave de autenticidade.  
-**Descrição:** Uma chave de autenticidade só pode ser emitida para obras que possuam registro completo e certificação válida.  
-**Origem:** Processo de autenticação da plataforma.  
-**Stakeholders envolvidos:** Artista, Certificador, Colecionador, Galeria.  
-**Condição:** Aplicada sempre que uma obra passar pelo fluxo de emissão de chave de autenticidade.  
-**Regra:** A chave só pode ser gerada quando a obra estiver registrada (RF-002 concluído) e possuir certificação emitida por certificador credenciado (RN-004).  
-**Exceções:** Galerias com selo de certificadora própria podem dispensar certificação externa mediante averiguação da validade da certificação própria.  
-**Dados envolvidos:** Dados da obra, dados de certificação, registro de titularidade.  
+**Título:** Emissão de chave de autenticidade.  
+**Descrição:** Chaves representam a autenticidade de obras já registradas e certificadas.  
+**Origem:** Processo de autenticação.  
+**Stakeholders envolvidos:** Artista, Galeria, Certificador, Colecionador.  
+**Condição:** Solicitação de emissão de chave.  
+**Regra:** Emitir somente após registro completo e laudo válido de certificador credenciado; registrar o evento e o hash em blockchain.  
+**Exceções:** Galeria pode usar certificação própria somente se também possuir credenciamento ativo de certificador.  
+**Dados envolvidos:** Obra, laudo, chave, hash e titularidade.  
 **Prioridade:** Crítica  
 **Status:** Proposto  
 **Requisitos relacionados:** RF-002, RF-003, RF-004  
@@ -39,390 +97,1200 @@ RN-008 → RF-006, RF-008
 
 ### RN-002 — Transferência de titularidade
 
-**Título:** Validação de titular na transferência.  
-**Descrição:** Uma obra só pode ser transferida se o proprietário atual constar como titular no registro vigente da plataforma.  
-**Origem:** Regra de proveniência.  
+**Título:** Transferência de titularidade.  
+**Descrição:** A titularidade deve refletir o proprietário legítimo da obra.  
+**Origem:** Gestão de aquisição e propriedade.  
 **Stakeholders envolvidos:** Colecionador, Galeria, Artista.  
-**Condição:** Aplicada sempre que uma solicitação de transferência é registrada.  
-**Regra:** O sistema deve confirmar que o solicitante é o titular corrente antes de gerar nova transação de transferência.  
-**Exceções:** Transferências judiciais ou por herança podem ser realizadas pelo Administrador mediante documentação comprobatória anexada.  
-**Dados envolvidos:** Dados de titularidade, dados de transação.  
+**Condição:** Solicitação de transferência.  
+**Regra:** Transferir apenas com titular atual validado, consentimento das partes e identificação da obra; registrar histórico imutável.  
+**Exceções:** Pendências ou ausência de consentimento bloqueiam a operação.  
+**Dados envolvidos:** Titular anterior, novo titular, consentimentos, data e hash.  
 **Prioridade:** Crítica  
 **Status:** Proposto  
-**Requisitos relacionados:** RF-006  
+**Requisitos relacionados:** RF-006, RF-012  
 
 ---
 
-### RN-003 — Privacidade em consultas públicas
+### RN-003 — Privacidade da pessoa consultada
 
-**Título:** Restrição de exibição de dados pessoais na proveniência.  
-**Descrição:** Dados de identidade dos envolvidos não podem ser exibidos em consultas públicas de proveniência.  
-**Origem:** Requisito de conformidade (LGPD).  
-**Stakeholders envolvidos:** Artista, Galeria, Colecionador, Certificador.  
-**Condição:** Aplicada em toda consulta de proveniência realizada por qualquer ator.  
-**Regra:** A consulta pode exibir dados da obra e histórico de transações, mas não pode expor nome, documento ou carteira digital de nenhum envolvido.  
-**Exceções:** O Administrador pode visualizar dados completos para fins de auditoria.  
-**Dados envolvidos:** Dados de identidade, dados da obra, dados de transação.  
-**Prioridade:** Crítica  
+**Título:** Privacidade da pessoa consultada.  
+**Descrição:** O titular controla quais dados privados da obra e de sua identidade são visíveis.  
+**Origem:** Política de privacidade.  
+**Stakeholders envolvidos:** Colecionador, Artista, Galeria.  
+**Condição:** Consulta de obra ou de titular.  
+**Regra:** Exibir publicamente apenas metadados autorizados; ocultar documentos, identificação pessoal e informações contratuais sem permissão.  
+**Exceções:** Autoridades ou administradores com autorização formal podem acessar dados estritamente necessários.  
+**Dados envolvidos:** Preferências de visibilidade, perfil, obra e documentos.  
+**Prioridade:** Alta  
 **Status:** Proposto  
-**Requisitos relacionados:** RF-007  
+**Requisitos relacionados:** RF-007, RF-011  
 
 ---
 
 ### RN-004 — Credenciamento de certificadores
 
-**Título:** Exigência de credenciamento para emissão de laudos.  
-**Descrição:** Somente certificadores previamente credenciados pela plataforma podem emitir certificações válidas.  
-**Origem:** Processo de governança da plataforma.  
-**Stakeholders envolvidos:** Certificador, Administrador.  
-**Condição:** Aplicada sempre que um laudo de certificação é submetido.  
-**Regra:** O sistema deve rejeitar certificações emitidas por usuários sem status de "certificador credenciado".  
-**Exceções:** Nenhuma.  
-**Dados envolvidos:** Dados de identidade, dados de certificação, dados de acesso.  
-**Prioridade:** Alta  
+**Título:** Credenciamento de certificadores.  
+**Descrição:** Somente profissionais ou galerias credenciados podem validar tecnicamente uma obra.  
+**Origem:** Governança de certificação.  
+**Stakeholders envolvidos:** Administrador, Certificador, Galeria.  
+**Condição:** Emissão de laudo ou uso de certificação própria.  
+**Regra:** Administrador verifica credenciais e ativa o perfil certificador; apenas credenciados ativos emitem laudos válidos.  
+**Exceções:** Credenciamento suspenso invalida novas emissões, sem apagar laudos históricos.  
+**Dados envolvidos:** Identidade, credenciais, situação e laudos.  
+**Prioridade:** Crítica  
 **Status:** Proposto  
-**Requisitos relacionados:** RF-003  
+**Requisitos relacionados:** RF-003, RF-008, RF-014  
 
 ---
 
-### RN-005 — Unicidade de hash da obra
+### RN-005 — Identificação e unicidade do registro
 
-**Título:** Impedimento de registro duplicado.  
-**Descrição:** Uma obra não pode ser registrada duas vezes com o mesmo conjunto de dados que gere o mesmo hash de identificação.  
-**Origem:** Integridade do registro em blockchain.  
-**Stakeholders envolvidos:** Artista, Galeria.  
-**Condição:** Aplicada no momento do registro da obra.  
-**Regra:** O sistema deve verificar se o hash gerado já existe na blockchain antes de concluir o registro; se existir, o registro deve ser recusado.  
-**Exceções:** Reemissão de registro por decisão administrativa, mediante justificativa registrada em trilha de auditoria.  
-**Dados envolvidos:** Dados da obra, hash na blockchain.  
+**Título:** Identificação e unicidade do registro.  
+**Descrição:** Cada obra cadastrada possui identificador próprio e integridade verificável por hash.  
+**Origem:** Registro de obras.  
+**Stakeholders envolvidos:** Artista, Galeria, Certificador.  
+**Condição:** Criação de registro.  
+**Regra:** Gerar ID único, calcular hash do registro e impedir repetição do mesmo identificador/hash; alertar sobre possíveis duplicidades da obra.  
+**Exceções:** Obras fisicamente distintas com metadados semelhantes não são automaticamente tratadas como iguais.  
+**Dados envolvidos:** ID da obra, atributos, arquivos e hash.  
 **Prioridade:** Crítica  
 **Status:** Proposto  
 **Requisitos relacionados:** RF-002  
 
 ---
 
-### RN-006 — Validade temporal da certificação
+### RN-006 — Validade da chave e verificação de autenticidade
 
-**Título:** Expiração de laudos de certificação.  
-**Descrição:** Uma certificação possui prazo de validade; após expirar, não pode mais ser usada para emitir ou validar autenticidade.  
-**Origem:** Regulamento de certificação de obras de arte.  
-**Stakeholders envolvidos:** Certificador, Colecionador.  
-**Condição:** Aplicada na emissão de chave de autenticidade e na validação de autenticidade.  
-**Regra:** O sistema deve verificar a data de validade da certificação; se expirada, a operação deve ser bloqueada e uma nova certificação deve ser solicitada.  
-**Exceções:** Certificações vitalícias emitidas por certificadores de nível máximo, se essa categoria existir.  
-**Dados envolvidos:** Dados de certificação (data, validade).  
-**Prioridade:** Alta  
+**Título:** Validade da chave e verificação de autenticidade.  
+**Descrição:** Uma chave deve ser verificável e vinculada ao registro e à certificação corretos.  
+**Origem:** Validação de autenticidade.  
+**Stakeholders envolvidos:** Colecionador, Certificador, Artista, Galeria.  
+**Condição:** Verificação de chave ou laudo.  
+**Regra:** Conferir existência, vínculo da chave à obra, integridade do hash e situação do laudo; sinalizar revogações e inconsistências.  
+**Exceções:** Sem confirmação blockchain, informar verificação pendente, nunca autenticidade confirmada.  
+**Dados envolvidos:** Chave, hash, ID da obra, laudo, eventos.  
+**Prioridade:** Crítica  
 **Status:** Proposto  
 **Requisitos relacionados:** RF-004, RF-005  
 
 ---
 
-### RN-007 — Permissões administrativas
+### RN-007 — Perfis, permissões e acesso público
 
-**Título:** Controle de acesso às funções administrativas.  
-**Descrição:** Apenas usuários com papel de Administrador podem executar operações de administração da plataforma (gestão de acessos, credenciamento, auditoria).  
-**Origem:** Política de segurança da plataforma.  
-**Stakeholders envolvidos:** Administrador.  
-**Condição:** Aplicada em qualquer tentativa de acesso a funções administrativas.  
-**Regra:** O sistema deve validar o papel do usuário antes de permitir qualquer operação de administração.  
-**Exceções:** Nenhuma.  
-**Dados envolvidos:** Dados de acesso.  
-**Prioridade:** Crítica  
-**Status:** Proposto  
-**Requisitos relacionados:** RF-008  
-
----
-
-### RN-008 — Auditoria obrigatória de operações sensíveis
-
-**Título:** Registro de trilha de auditoria.  
-**Descrição:** Toda operação de transferência de titularidade, validação de autenticidade e administração deve gerar um registro na trilha de auditoria.  
-**Origem:** Requisito de rastreabilidade e conformidade.  
+**Título:** Perfis, permissões e acesso público.  
+**Descrição:** Ações dependem do perfil e da autenticação.  
+**Origem:** Controle de acesso.  
 **Stakeholders envolvidos:** Todos os atores.  
-**Condição:** Aplicada a qualquer execução dos fluxos de Transferência, Validação e Administração.  
-**Regra:** O sistema deve registrar autor, data/hora, tipo de operação e resultado em log de auditoria imutável.  
-**Exceções:** Nenhuma.  
-**Dados envolvidos:** Dados de transação, dados de acesso, dados da obra.  
+**Condição:** Tentativa de acessar função ou dado.  
+**Regra:** Visitantes apenas consultam catálogo público; funções de gestão, certificação e dados sensíveis exigem conta ativa e permissão apropriada.  
+**Exceções:** Administrador pode conceder/revogar permissões com registro de auditoria.  
+**Dados envolvidos:** Perfil, permissões, sessão e recurso.  
 **Prioridade:** Crítica  
 **Status:** Proposto  
-**Requisitos relacionados:** RF-005, RF-006, RF-008  
+**Requisitos relacionados:** RF-001, RF-008, RF-009, RF-011, RF-016  
 
 ---
 
-### RN-009 — Emissão de certificações vitalícias
+### RN-008 — Auditoria de operações sensíveis
 
-**Título:** Condições para expedição de certificações sem data de expiração.  
-**Descrição:** Uma certificação emitida por certificadores de nível máximo, caso solicitadas pelo contratante, pode ter duração vitalícia.  
-**Origem:** Regulamento de certificação de obras de arte.  
-**Stakeholders envolvidos:** Certificador, Colecionador.  
-**Condição:** Aplicada na emissão de chave de autenticidade e na validação de autenticidade.  
-**Regra:** O sistema deve verificar a data de validade da certificação; se vitalícia, a operação deve ser autorizada.  
-**Exceções:** Caso a obra possua certificação exterior permanente, o certificado deve ser passado por auditoria para posterior emissão de certificação vitalícia na plataforma.  
-**Dados envolvidos:** Dados de certificação.
+**Título:** Auditoria de operações sensíveis.  
+**Descrição:** Operações críticas devem permanecer rastreáveis.  
+**Origem:** Governança e rastreabilidade.  
+**Stakeholders envolvidos:** Administrador, Galeria, Colecionador, Certificador.  
+**Condição:** Registro, emissão, transferência, exclusão ou alteração de permissão.  
+**Regra:** Registrar ator, ação, obra/conta afetada, data, resultado e referência de integridade; proibir edição do evento original.  
+**Exceções:** Corrigir eventos por lançamentos adicionais; nunca sobrescrever o histórico.  
+**Dados envolvidos:** Eventos de auditoria, timestamps, referências e hashes.  
+**Prioridade:** Crítica  
+**Status:** Proposto  
+**Requisitos relacionados:** RF-002, RF-004, RF-006, RF-008, RF-010, RF-015  
+
+---
+
+### RN-009 — Privacidade da pessoa que consulta
+
+**Título:** Privacidade da pessoa que consulta.  
+**Descrição:** Consultas não expõem a identidade do consulente a outros usuários.  
+**Origem:** Política de privacidade.  
+**Stakeholders envolvidos:** Colecionador, Artista, Galeria, Visitante.  
+**Condição:** Consulta de proveniência ou catálogo.  
+**Regra:** Não divulgar ao titular ou ao público a identidade do consulente; dados técnicos da consulta ficam acessíveis só à auditoria autorizada.  
+**Exceções:** Consulta anônima não concede acesso a informações privadas.  
+**Dados envolvidos:** Identificador da sessão, logs de consulta e permissões.  
 **Prioridade:** Alta  
 **Status:** Proposto  
-**Requisitos relacionados:** RF-004, RF-005  
+**Requisitos relacionados:** RF-007, RF-011, RF-015  
+
+---
+
+### RN-010 — Certificação vitalícia e renovação do registro
+
+**Título:** Certificação vitalícia e renovação do registro.  
+**Descrição:** O certificado vitalício não vence automaticamente; o cadastro da obra pode ser atualizado.  
+**Origem:** Política de certificação e manutenção.  
+**Stakeholders envolvidos:** Colecionador, Artista, Galeria, Certificador.  
+**Condição:** Solicitação de registro vitalício ou renovação.  
+**Regra:** Emitir certificação vitalícia somente com laudo válido; renovação atualiza dados/evidências e gera novo evento, sem apagar certificação anterior.  
+**Exceções:** Fraude, revogação fundamentada ou mudança de titularidade podem exigir revalidação, não vencimento automático.  
+**Dados envolvidos:** Certificado, laudo, versões do cadastro e histórico.  
+**Prioridade:** Alta  
+**Status:** Proposto  
+**Requisitos relacionados:** RF-013, RF-014  
+
+---
+
+### RN-011 — Vínculo de autoria e portfólio
+
+**Título:** Vínculo de autoria e portfólio.  
+**Descrição:** Cada obra possui um artista principal cadastrado e pode integrar o catálogo de uma galeria.  
+**Origem:** Cadastro e acervo.  
+**Stakeholders envolvidos:** Artista, Galeria.  
+**Condição:** Cadastro ou vinculação de obra ao portfólio.  
+**Regra:** Exigir um único artista principal por obra e autorização para inclusão no portfólio da galeria.  
+**Exceções:** Coautoria não está modelada nesta versão e depende de decisão do negócio.  
+**Dados envolvidos:** Artista principal, obra, autorização e galeria.  
+**Prioridade:** Média  
+**Status:** Proposto  
+**Requisitos relacionados:** RF-002, RF-016  
+
+---
+
+### RN-012 — Desativação/exclusão de contas
+
+**Título:** Desativação/exclusão de contas.  
+**Descrição:** Contas inativas ou inadimplentes podem ter o acesso encerrado sem destruir rastreabilidade.  
+**Origem:** Gestão de usuários e conformidade.  
+**Stakeholders envolvidos:** Administrador, Usuários.  
+**Condição:** Solicitação de exclusão ou medida administrativa.  
+**Regra:** Desativar acesso; excluir ou anonimizar dados pessoais elimináveis conforme política de retenção; preservar apenas registros obrigatórios de integridade/auditoria.  
+**Exceções:** Pendências e obrigações legais podem impedir exclusão imediata de determinados dados.  
+**Dados envolvidos:** Conta, motivo, dados pessoais, logs.  
+**Prioridade:** Alta  
+**Status:** Proposto  
+**Requisitos relacionados:** RF-010, RF-015  
+
+---
+
+### RN-013 — Solicitação de aquisição
+
+**Título:** Solicitação de aquisição.  
+**Descrição:** A aquisição inicia um pedido, mas não substitui comprovação de compra nem transferência de propriedade.  
+**Origem:** Processo comercial.  
+**Stakeholders envolvidos:** Colecionador, Galeria.  
+**Condição:** Interesse em adquirir obra disponível.  
+**Regra:** Criar pedido e notificar a galeria; registrar aceitação/rejeição; transferir titularidade somente após confirmação do negócio e RN-002.  
+**Exceções:** Pagamento e integração financeira não fazem parte do escopo desta versão.  
+**Dados envolvidos:** Pedido, obra, interessado, decisão e comprovante.  
+**Prioridade:** Alta  
+**Status:** Proposto  
+**Requisitos relacionados:** RF-006, RF-012  
+
+---
 
 ---
 
 ## 2. Requisitos Funcionais (RF)
 
-### RF-001 — Cadastrar dados de identidade
 
-**Descrição:** O sistema deve permitir que Artista, Galeria, Certificador e Colecionador cadastrem seus dados de identidade (nome, e-mail, documento, carteira digital).  
-**Objetivo:** Habilitar os atores a interagir com os demais fluxos da plataforma.  
-**Stakeholders:** Artista, Galeria, Certificador, Colecionador.  
-**Ator principal:** Usuário (qualquer papel).  
-**Pré-condições:** Nenhuma.  
-**Entradas:** Nome, e-mail, documento, carteira digital.  
-**Processamento esperado:** Validar formato dos dados e verificar duplicidade de cadastro.  
-**Saídas/Resultados:** Perfil de identidade criado.  
-**Pós-condições:** Dados de identidade protegidos armazenados em base privada (off-chain).  
-**Fluxos alternativos/exceções:** E-mail ou documento já cadastrado; dados inválidos.  
-**Regras de negócio relacionadas:** —  
+### RF-001 — Cadastrar conta e autenticar usuários
+
+**Descrição:** Permitir criar conta e entrar na plataforma com credenciais.  
+**Objetivo:** Habilitar acesso identificado.  
+**Stakeholders:** Todos os perfis  
+**Ator principal:** Usuário  
+**Pré-condições:** Para login, conta cadastrada; cadastro sem pré-condições.  
+**Entradas:** Nome, e-mail, documento e senha.  
+**Processamento esperado:** Validar dados, armazenar cadastro privado e autenticar credenciais.  
+**Saídas/Resultados:** Conta criada ou sessão iniciada.  
+**Pós-condições:** Usuário com conta/sessão válida.  
+**Fluxos alternativos/exceções:** Dados inválidos, conta bloqueada ou senha incorreta.  
+**Regras de negócio relacionadas:** RN-007  
 **Prioridade:** Crítica  
 **Status:** Proposto  
 **Critérios de aceite:**
-- Não permitir cadastro com documento duplicado.
-- Armazenar dados sensíveis apenas na base off-chain.  
-**Casos de uso relacionados:** UC-001  
-**Tarefas relacionadas:** TASK-001, TASK-002  
-**Casos de teste relacionados:** CT-001, CT-002  
+- Cadastro recusa campos obrigatórios inválidos.
+- Login recusa credenciais incorretas.
+
+**Casos de uso relacionados:** UC-01, UC-02  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
 
 ---
 
 ### RF-002 — Registrar obra
 
-**Descrição:** O sistema deve permitir que Artista ou Galeria registrem uma obra com título, autor, técnica, dimensões, data e imagens.  
-**Objetivo:** Criar o registro base que sustenta certificação e autenticidade.  
-**Stakeholders:** Artista, Galeria, Colecionador.  
-**Ator principal:** Artista ou Galeria.  
-**Pré-condições:** Identidade cadastrada e ativa; dados de titularidade comprovados.  
-**Entradas:** Dados da obra, dados de titularidade.  
-**Processamento esperado:** Gerar hash único da obra e verificar unicidade (RN-005) antes de concluir o registro.  
-**Saídas/Resultados:** Obra registrada com hash gravado em blockchain e arquivos armazenados em storage descentralizado.  
-**Pós-condições:** Obra disponível para emissão de certificação e chave de autenticidade.  
-**Fluxos alternativos/exceções:** Hash já existente (RN-005); dados de titularidade não comprovados.  
-**Regras de negócio relacionadas:** RN-005  
+**Descrição:** Cadastrar uma obra com título, artista, técnica, dimensões, data, imagens e titularidade.  
+**Objetivo:** Constituir registro rastreável da obra.  
+**Stakeholders:** Artista, Galeria, Colecionador  
+**Ator principal:** Artista ou Galeria  
+**Pré-condições:** Conta ativa e vínculo de titularidade/autorização comprovado.  
+**Entradas:** Dados da obra, provas de titularidade e imagens.  
+**Processamento esperado:** Validar campos, gerar ID/hash e registrar metadados e arquivos nos repositórios previstos.  
+**Saídas/Resultados:** ID da obra, hash e protocolo de registro.  
+**Pós-condições:** Obra disponível para certificação.  
+**Fluxos alternativos/exceções:** Cadastro incompleto, titularidade não comprovada ou hash/ID duplicado.  
+**Regras de negócio relacionadas:** RN-005, RN-008, RN-011  
 **Prioridade:** Crítica  
 **Status:** Proposto  
 **Critérios de aceite:**
-- Recusar registro com hash duplicado.
-- Gravar hash na blockchain e imagens no armazenamento descentralizado.  
-**Casos de uso relacionados:** UC-002  
-**Tarefas relacionadas:** TASK-003, TASK-004  
-**Casos de teste relacionados:** CT-003, CT-004  
+- Bloquear duplicação do mesmo ID/hash.
+- Registrar referência de integridade e armazenar anexos permitidos.
+
+**Casos de uso relacionados:** UC-03  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
 
 ---
 
-### RF-003 — Emitir certificação
+### RF-003 — Emitir laudo de certificação
 
-**Descrição:** O sistema deve permitir que um certificador credenciado emita um laudo de certificação para uma obra registrada.  
-**Objetivo:** Formalizar a avaliação técnica de autenticidade da obra.  
-**Stakeholders:** Certificador, Artista, Colecionador.  
-**Ator principal:** Certificador.  
-**Pré-condições:** Certificador credenciado (RN-004); obra registrada (RF-002).  
-**Entradas:** Laudo, data, validade, assinatura do certificador.  
-**Processamento esperado:** Validar credenciamento do certificador e associar o laudo à obra.  
-**Saídas/Resultados:** Certificação emitida e laudo armazenado.  
-**Pós-condições:** Obra apta a receber chave de autenticidade (RF-004).  
-**Fluxos alternativos/exceções:** Certificador não credenciado (RN-004); obra inexistente.  
-**Regras de negócio relacionadas:** RN-004  
-**Prioridade:** Alta  
+**Descrição:** Permitir laudo de autenticidade de obra por certificador credenciado.  
+**Objetivo:** Fundamentar autenticação técnica.  
+**Stakeholders:** Certificador, Artista, Galeria  
+**Ator principal:** Certificador  
+**Pré-condições:** Certificador ativo e obra cadastrada.  
+**Entradas:** ID da obra, parecer, documentos e assinatura.  
+**Processamento esperado:** Verificar credenciamento e registrar laudo associado à obra.  
+**Saídas/Resultados:** Laudo emitido com referência verificável.  
+**Pós-condições:** Obra apta à emissão de chave, se aprovada.  
+**Fluxos alternativos/exceções:** Certificador não credenciado ou laudo reprovado.  
+**Regras de negócio relacionadas:** RN-004, RN-006  
+**Prioridade:** Crítica  
 **Status:** Proposto  
 **Critérios de aceite:**
-- Rejeitar emissão por certificador não credenciado.
-- Armazenar laudo em storage descentralizado.  
-**Casos de uso relacionados:** UC-003  
-**Tarefas relacionadas:** TASK-005  
-**Casos de teste relacionados:** CT-005, CT-006  
+- Somente certificador credenciado emite laudo válido.
+- Laudo fica associado à obra e à auditoria.
+
+**Casos de uso relacionados:** UC-04  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
 
 ---
 
 ### RF-004 — Emitir chave de autenticidade
 
-**Descrição:** O sistema deve emitir uma chave de autenticidade para obras com registro e certificação válidos.  
-**Objetivo:** Fornecer prova criptográfica de autenticidade da obra.  
-**Stakeholders:** Artista, Certificador, Colecionador.  
-**Ator principal:** Administrador (acionado após RF-002 e RF-003).  
-**Pré-condições:** Registro concluído (RF-002); certificação válida e não expirada (RN-001, RN-006).  
-**Entradas:** Dados de registro, dados de certificação.  
-**Processamento esperado:** Verificar validade da certificação e gerar evento de autenticidade na blockchain.  
-**Saídas/Resultados:** Chave de autenticidade gerada e evento registrado em blockchain.  
-**Pós-condições:** Obra disponível para validação pública de autenticidade.  
-**Fluxos alternativos/exceções:** Certificação expirada (RN-006); registro incompleto.  
-**Regras de negócio relacionadas:** RN-001, RN-006  
+**Descrição:** Gerar chave vinculada a obra com certificação válida.  
+**Objetivo:** Facilitar verificação de autenticidade.  
+**Stakeholders:** Artista, Galeria, Colecionador  
+**Ator principal:** Artista ou Galeria  
+**Pré-condições:** Obra registrada e laudo válido.  
+**Entradas:** ID da obra e laudo.  
+**Processamento esperado:** Validar pré-requisitos, gerar chave e registrar hash/evento na blockchain.  
+**Saídas/Resultados:** Chave e status da confirmação.  
+**Pós-condições:** Chave verificável após confirmação.  
+**Fluxos alternativos/exceções:** Laudo ausente, chave já emitida ou confirmação pendente.  
+**Regras de negócio relacionadas:** RN-001, RN-006, RN-008  
 **Prioridade:** Crítica  
 **Status:** Proposto  
 **Critérios de aceite:**
-- Bloquear emissão se certificação estiver expirada.
-- Registrar evento de emissão na blockchain.  
-**Casos de uso relacionados:** UC-004  
-**Tarefas relacionadas:** TASK-006  
-**Casos de teste relacionados:** CT-007, CT-008  
+- Impedir emissão sem laudo válido.
+- Não declarar confirmação antes da blockchain.
+
+**Casos de uso relacionados:** UC-05  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
 
 ---
 
-### RF-005 — Validar autenticidade
+### RF-005 — Validar autenticidade da obra
 
-**Descrição:** O sistema deve permitir que Colecionador ou Certificador validem a autenticidade de uma obra consultando registro, certificação e blockchain.  
-**Objetivo:** Confirmar publicamente que uma obra é autêntica.  
-**Stakeholders:** Colecionador, Certificador.  
-**Ator principal:** Colecionador ou Certificador.  
-**Pré-condições:** Obra possuir chave de autenticidade emitida (RF-004).  
-**Entradas:** Identificador da obra.  
-**Processamento esperado:** Consultar dados da obra, certificação e evento na blockchain; verificar validade da certificação (RN-006).  
-**Saídas/Resultados:** Resultado da validação (autêntico/inválido/expirado) registrado em trilha de auditoria.  
-**Pós-condições:** Resultado disponível para consulta.  
-**Fluxos alternativos/exceções:** Certificação expirada (RN-006); chave de autenticidade inexistente.  
-**Regras de negócio relacionadas:** RN-006, RN-008  
+**Descrição:** Verificar chave e certificação vinculadas à obra.  
+**Objetivo:** Permitir consulta de autenticidade confiável.  
+**Stakeholders:** Colecionador, Certificador, Galeria  
+**Ator principal:** Colecionador ou Certificador  
+**Pré-condições:** ID/chave informados; autenticação quando houver dados privados.  
+**Entradas:** Chave ou ID da obra.  
+**Processamento esperado:** Comparar vínculos, status de laudo, hash e eventos confirmados.  
+**Saídas/Resultados:** Autenticidade confirmada, inválida ou pendente.  
+**Pós-condições:** Resultado registrado quando operação sensível.  
+**Fluxos alternativos/exceções:** Chave inexistente ou inconsistência nos registros.  
+**Regras de negócio relacionadas:** RN-006, RN-007  
 **Prioridade:** Alta  
 **Status:** Proposto  
 **Critérios de aceite:**
-- Indicar claramente quando a certificação estiver expirada.
-- Registrar todo resultado de validação na auditoria.  
-**Casos de uso relacionados:** UC-005  
-**Tarefas relacionadas:** TASK-007  
-**Casos de teste relacionados:** CT-009, CT-010  
+- Exibir resultado e motivo sucinto.
+- Não validar chave revogada ou divergente.
+
+**Casos de uso relacionados:** UC-06  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
 
 ---
 
 ### RF-006 — Transferir titularidade
 
-**Descrição:** O sistema deve permitir que o titular atual de uma obra transfira sua titularidade para outro usuário.  
-**Objetivo:** Manter a proveniência da obra atualizada e confiável.  
-**Stakeholders:** Colecionador, Galeria.  
-**Ator principal:** Colecionador ou Galeria (titular atual).  
-**Pré-condições:** Solicitante ser o titular vigente (RN-002).  
-**Entradas:** Dados de transação (origem, destino, preço, data).  
-**Processamento esperado:** Validar titularidade corrente, registrar hash da transação na blockchain e dados comerciais na base privada.  
-**Saídas/Resultados:** Nova titularidade registrada; evento gravado em blockchain e auditoria.
-**Pós-condições:** Novo titular passa a constar como proprietário vigente.  
-**Fluxos alternativos/exceções:** Solicitante não é o titular vigente (RN-002); transferência judicial (exceção administrativa).  
-**Regras de negócio relacionadas:** RN-002, RN-008  
+**Descrição:** Registrar passagem de propriedade entre titulares.  
+**Objetivo:** Manter proveniência correta.  
+**Stakeholders:** Colecionador, Galeria, Artista  
+**Ator principal:** Titular atual ou Galeria autorizada  
+**Pré-condições:** Contas verificadas e consentimentos disponíveis.  
+**Entradas:** ID da obra, novo titular, comprovantes e autorização.  
+**Processamento esperado:** Confirmar titular e negócio, registrar evento na blockchain e atualizar base privada.  
+**Saídas/Resultados:** Confirmação ou pendência da transferência.  
+**Pós-condições:** Histórico preservado e titular atualizado após confirmação.  
+**Fluxos alternativos/exceções:** Falta de autorização, disputa ou blockchain pendente.  
+**Regras de negócio relacionadas:** RN-002, RN-008, RN-013  
 **Prioridade:** Crítica  
 **Status:** Proposto  
 **Critérios de aceite:**
-- Recusar transferência se solicitante não for o titular vigente.
-- Gravar hash da transação na blockchain e dados comerciais na base privada.
-- Registrar evento na trilha de auditoria.  
-**Casos de uso relacionados:** UC-006  
-**Tarefas relacionadas:** TASK-008, TASK-009  
-**Casos de teste relacionados:** CT-011, CT-012  
+- Não transferir sem confirmação das partes.
+- Manter titular anterior no histórico.
+
+**Casos de uso relacionados:** UC-07  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
 
 ---
 
 ### RF-007 — Consultar proveniência
 
-**Descrição:** O sistema deve permitir que qualquer usuário consulte o histórico de proveniência de uma obra, sem expor dados pessoais dos envolvidos.  
-**Objetivo:** Dar transparência pública ao histórico da obra.  
-**Stakeholders:** Colecionador, Galeria, público em geral.  
-**Ator principal:** Colecionador ou Galeria.  
-**Pré-condições:** Obra registrada.  
-**Entradas:** Identificador da obra.  
-**Processamento esperado:** Buscar dados da obra, eventos na blockchain e trilha de auditoria, filtrando dados de identidade (RN-003).  
-**Saídas/Resultados:** Histórico de proveniência exibido sem dados pessoais.  
-**Pós-condições:** Nenhuma alteração de estado.  
-**Fluxos alternativos/exceções:** Obra inexistente.  
-**Regras de negócio relacionadas:** RN-003  
+**Descrição:** Exibir histórico autorizado de origem e transferências da obra.  
+**Objetivo:** Dar transparência ao histórico da obra.  
+**Stakeholders:** Colecionador, Galeria, Artista, Público  
+**Ator principal:** Usuário ou Visitante  
+**Pré-condições:** Obra identificável; login para informação restrita.  
+**Entradas:** ID ou chave da obra.  
+**Processamento esperado:** Buscar histórico e filtrar dados conforme permissões.  
+**Saídas/Resultados:** Linha do tempo de proveniência, com campos públicos/privados.  
+**Pós-condições:** Consulta concluída sem expor dados indevidos.  
+**Fluxos alternativos/exceções:** Obra não encontrada ou acesso negado.  
+**Regras de negócio relacionadas:** RN-003, RN-007, RN-009  
 **Prioridade:** Alta  
 **Status:** Proposto  
 **Critérios de aceite:**
-- Nunca exibir nome, documento ou carteira digital na consulta pública.
-- Exibir apenas dados da obra e histórico de transações/eventos.  
-**Casos de uso relacionados:** UC-007  
-**Tarefas relacionadas:** TASK-010  
-**Casos de teste relacionados:** CT-013, CT-014  
+- Visitante visualiza apenas dados públicos.
+- Dados pessoais não aparecem sem permissão.
+
+**Casos de uso relacionados:** UC-08  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
 
 ---
 
-### RF-008 — Administrar plataforma
+### RF-008 — Administrar plataforma, credenciamentos e permissões
 
-**Descrição:** O sistema deve permitir que o Administrador gerencie permissões de acesso, credenciamento de certificadores e consulte a trilha de auditoria.  
-**Objetivo:** Garantir governança e segurança da plataforma.  
-**Stakeholders:** Administrador.  
-**Ator principal:** Administrador.  
-**Pré-condições:** Usuário autenticado com papel de Administrador (RN-007).  
-**Entradas:** Dados de acesso, solicitações de credenciamento.  
-**Processamento esperado:** Validar papel do usuário antes de qualquer operação administrativa.  
-**Saídas/Resultados:** Permissões atualizadas, certificadores credenciados/descredenciados, registros de auditoria consultados.  
-**Pós-condições:** Alterações refletidas em dados de acesso e trilha de auditoria.  
-**Fluxos alternativos/exceções:** Usuário sem papel de Administrador (RN-007).  
+**Descrição:** Permitir ao administrador gerir usuários, perfis e certificadores.  
+**Objetivo:** Controlar a governança da plataforma.  
+**Stakeholders:** Administrador, Certificador, Todos os perfis  
+**Ator principal:** Administrador  
+**Pré-condições:** Administrador autenticado e autorizado.  
+**Entradas:** Conta, perfil, justificativa e credenciais do certificador.  
+**Processamento esperado:** Validar solicitação, alterar credenciamento/permissões e auditar.  
+**Saídas/Resultados:** Mudança registrada ou recusada.  
+**Pós-condições:** Estado de acesso atualizado.  
+**Fluxos alternativos/exceções:** Credenciamento insuficiente ou tentativa não autorizada.  
 **Regras de negócio relacionadas:** RN-004, RN-007, RN-008  
+**Prioridade:** Crítica  
+**Status:** Proposto  
+**Critérios de aceite:**
+- Recusar alteração por não administrador.
+- Registrar autor e motivo da alteração.
+
+**Casos de uso relacionados:** UC-09, UC-10  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
+
+---
+
+### RF-009 — Validar identidade de usuário
+
+**Descrição:** Permitir conferência de documentos de identidade antes de operações críticas.  
+**Objetivo:** Evitar operações com identificação não verificada.  
+**Stakeholders:** Administrador, Artista, Galeria, Certificador, Colecionador  
+**Ator principal:** Administrador  
+**Pré-condições:** Conta cadastrada e documentos enviados.  
+**Entradas:** Documento de identidade e dados cadastrais.  
+**Processamento esperado:** Conferir coerência documental e aprovar ou rejeitar.  
+**Saídas/Resultados:** Status verificado, pendente ou rejeitado.  
+**Pós-condições:** Conta habilitada para atos restritos quando aprovada.  
+**Fluxos alternativos/exceções:** Documento inválido ou divergência cadastral.  
+**Regras de negócio relacionadas:** RN-007  
 **Prioridade:** Alta  
 **Status:** Proposto  
 **Critérios de aceite:**
-- Bloquear qualquer operação administrativa para usuários sem papel de Administrador.
-- Registrar toda alteração administrativa na trilha de auditoria.  
-**Casos de uso relacionados:** UC-008  
-**Tarefas relacionadas:** TASK-011, TASK-012  
-**Casos de teste relacionados:** CT-015, CT-016  
+- Operações críticas exigem status verificado.
+- O documento não fica exposto em catálogo.
+
+**Casos de uso relacionados:** UC-12  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
+
+---
+
+### RF-010 — Desativar ou excluir conta
+
+**Descrição:** Permitir tratar contas excluídas, inativas ou inadimplentes.  
+**Objetivo:** Encerrar acessos preservando rastreabilidade.  
+**Stakeholders:** Administrador, Usuários  
+**Ator principal:** Administrador  
+**Pré-condições:** Conta existente e justificativa.  
+**Entradas:** ID da conta e motivo.  
+**Processamento esperado:** Suspender login e aplicar política de exclusão/anonimização.  
+**Saídas/Resultados:** Conta desativada e registro do evento.  
+**Pós-condições:** Acessos revogados; históricos necessários preservados.  
+**Fluxos alternativos/exceções:** Vínculos ou retenção obrigatória pendentes.  
+**Regras de negócio relacionadas:** RN-008, RN-012  
+**Prioridade:** Alta  
+**Status:** Proposto  
+**Critérios de aceite:**
+- Conta desativada não autentica.
+- Registrar operação sem apagar eventos históricos.
+
+**Casos de uso relacionados:** UC-13  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
+
+---
+
+### RF-011 — Consultar catálogo público
+
+**Descrição:** Listar obras públicas do acervo da galeria.  
+**Objetivo:** Permitir descoberta de obras por visitantes.  
+**Stakeholders:** Público não logado, Colecionador, Galeria  
+**Ator principal:** Visitante ou Usuário  
+**Pré-condições:** Nenhuma.  
+**Entradas:** Busca, filtros e ID da obra.  
+**Processamento esperado:** Pesquisar publicações e aplicar políticas de visibilidade.  
+**Saídas/Resultados:** Lista/detalhes públicos das obras.  
+**Pós-condições:** Catálogo apresentado.  
+**Fluxos alternativos/exceções:** Obra não publicada ou dado protegido não aparece.  
+**Regras de negócio relacionadas:** RN-003, RN-007, RN-009  
+**Prioridade:** Alta  
+**Status:** Proposto  
+**Critérios de aceite:**
+- Acesso sem login disponível.
+- Nenhum documento privado é exibido.
+
+**Casos de uso relacionados:** UC-14  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
+
+---
+
+### RF-012 — Solicitar aquisição de obra
+
+**Descrição:** Permitir ao colecionador abrir pedido de compra pela plataforma.  
+**Objetivo:** Formalizar interesse e encaminhar à galeria.  
+**Stakeholders:** Colecionador, Galeria  
+**Ator principal:** Colecionador  
+**Pré-condições:** Login válido; obra disponível.  
+**Entradas:** Obra e identificação do interessado.  
+**Processamento esperado:** Criar pedido e informar a galeria responsável.  
+**Saídas/Resultados:** Número e status do pedido.  
+**Pós-condições:** Pedido aguardando resposta.  
+**Fluxos alternativos/exceções:** Obra indisponível ou usuário não autorizado.  
+**Regras de negócio relacionadas:** RN-013  
+**Prioridade:** Média  
+**Status:** Proposto  
+**Critérios de aceite:**
+- Pedido não altera titularidade automaticamente.
+- Galeria recebe pedido com referência da obra.
+
+**Casos de uso relacionados:** UC-15  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
+
+---
+
+### RF-013 — Renovar registro de obra
+
+**Descrição:** Permitir atualizar os dados e as evidências do registro sem perder o histórico.  
+**Objetivo:** Manter informações de obra atualizadas.  
+**Stakeholders:** Colecionador, Artista, Galeria  
+**Ator principal:** Titular atual ou Galeria autorizada  
+**Pré-condições:** Obra existente e autorização validada.  
+**Entradas:** Dados ou documentos atualizados.  
+**Processamento esperado:** Criar versão e evento de atualização, preservando dados anteriores.  
+**Saídas/Resultados:** Nova versão do registro.  
+**Pós-condições:** Histórico e vínculos de autenticidade mantidos.  
+**Fluxos alternativos/exceções:** Divergência de titularidade ou atualização inválida.  
+**Regras de negócio relacionadas:** RN-008, RN-010  
+**Prioridade:** Média  
+**Status:** Proposto  
+**Critérios de aceite:**
+- Exibir versão atual do registro.
+- Não apagar versão anterior.
+
+**Casos de uso relacionados:** UC-16  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
+
+---
+
+### RF-014 — Solicitar certificação vitalícia
+
+**Descrição:** Permitir solicitar e emitir certificado de validade não limitada por prazo.  
+**Objetivo:** Disponibilizar certificação vitalícia verificável.  
+**Stakeholders:** Colecionador, Artista, Galeria, Certificador  
+**Ator principal:** Titular/solicitante e Certificador  
+**Pré-condições:** Obra registrada, identidade verificada e laudo válido.  
+**Entradas:** ID da obra e laudo/certificação.  
+**Processamento esperado:** Verificar pré-requisitos e registrar certificado vitalício.  
+**Saídas/Resultados:** Certificado ou indeferimento.  
+**Pós-condições:** Certificação ativa sem vencimento automático.  
+**Fluxos alternativos/exceções:** Certificação inexistente ou revogada.  
+**Regras de negócio relacionadas:** RN-004, RN-010  
+**Prioridade:** Alta  
+**Status:** Proposto  
+**Critérios de aceite:**
+- Somente certificações aprovadas são emitidas.
+- A renovação do cadastro não cancela o certificado.
+
+**Casos de uso relacionados:** UC-17  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
+
+---
+
+### RF-015 — Consultar trilha de auditoria
+
+**Descrição:** Permitir ao administrador buscar eventos de operações críticas.  
+**Objetivo:** Viabilizar fiscalização e rastreabilidade.  
+**Stakeholders:** Administrador  
+**Ator principal:** Administrador  
+**Pré-condições:** Acesso administrativo autorizado.  
+**Entradas:** Filtros por evento, ator, obra e data.  
+**Processamento esperado:** Consultar registros preservados e conferir referências de integridade.  
+**Saídas/Resultados:** Lista de eventos consultáveis.  
+**Pós-condições:** Nenhuma alteração no histórico.  
+**Fluxos alternativos/exceções:** Acesso negado ou ausência de resultados.  
+**Regras de negócio relacionadas:** RN-008, RN-009  
+**Prioridade:** Alta  
+**Status:** Proposto  
+**Critérios de aceite:**
+- Somente perfil autorizado consulta trilha completa.
+- Eventos não podem ser editados nessa função.
+
+**Casos de uso relacionados:** UC-11  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
+
+---
+
+### RF-016 — Gerenciar portfólio da galeria
+
+**Descrição:** Adicionar ou retirar obras autorizadas do catálogo da galeria.  
+**Objetivo:** Organizar acervo e publicações.  
+**Stakeholders:** Galeria, Artista  
+**Ator principal:** Galeria  
+**Pré-condições:** Obra registrada e autorização de vínculo.  
+**Entradas:** ID da obra, autorização e status de publicação.  
+**Processamento esperado:** Verificar vínculo, associar ou desassociar obra e atualizar catálogo.  
+**Saídas/Resultados:** Portfólio atualizado.  
+**Pós-condições:** Obra visível conforme configuração de privacidade.  
+**Fluxos alternativos/exceções:** Autorização ausente ou obra inexistente.  
+**Regras de negócio relacionadas:** RN-003, RN-007, RN-011  
+**Prioridade:** Média  
+**Status:** Proposto  
+**Critérios de aceite:**
+- Somente obras autorizadas entram no portfólio.
+- Retirada do catálogo não exclui registro da obra.
+
+**Casos de uso relacionados:** UC-18  
+**Tarefas relacionadas:** A definir no planejamento.  
+**Casos de teste relacionados:** A definir na implementação.  
+
+---
 
 ---
 
 ## 3. Requisitos Não Funcionais (RNF)
 
+
 ### RNF-001 — Proteção de dados pessoais
 
-**Categoria:** Segurança  
-**Descrição:** O sistema deve armazenar todos os dados pessoais (identidade) exclusivamente na base privada off-chain, nunca em blockchain ou storage descentralizado público.  
-**Justificativa:** Conformidade com LGPD e prevenção de exposição irreversível de dados sensíveis.  
-**Métrica/Critério mensurável:** Nenhum campo de identidade (nome, e-mail, documento, carteira digital) deve estar presente em blocos de blockchain ou arquivos públicos, verificável por auditoria de esquema.  
-**Escopo:** Todo o sistema.  
+**Categoria:** Segurança e privacidade  
+**Descrição:** Dados pessoais, identidades e contratos devem ficar em base privada com acesso restrito; a blockchain guarda apenas evidências sem dados pessoais em claro.  
+**Justificativa:** Reduzir exposição e apoiar conformidade com a LGPD.  
+**Métrica/Critério mensurável:** Testes mostram 0 documentos pessoais públicos e 100% dos acessos privados autorizados.  
+**Escopo:** Cadastro, identidade e auditoria  
 **Prioridade:** Crítica  
 **Status:** Proposto  
-**Requisitos relacionados:** RF-001  
-**Casos de teste relacionados:** --  
+**Requisitos relacionados:** RF-001, RF-009, RF-010  
+**Casos de uso relacionados:** UC-02, UC-12, UC-13  
 
 ---
 
-### RNF-002 — Desempenho da consulta de proveniência
+### RNF-002 — Imutabilidade dos eventos auditáveis
+
+**Categoria:** Integridade  
+**Descrição:** Eventos concluídos de auditoria não podem ser alterados ou apagados por usuários da aplicação.  
+**Justificativa:** Garantir rastreabilidade.  
+**Métrica/Critério mensurável:** Em testes, 100% das alterações tentadas via aplicação são bloqueadas; integridade verificável.  
+**Escopo:** Auditoria e operações críticas  
+**Prioridade:** Crítica  
+**Status:** Proposto  
+**Requisitos relacionados:** RF-015, RF-006  
+**Casos de uso relacionados:** UC-07, UC-11  
+
+---
+
+### RNF-003 — Desempenho da consulta de proveniência
 
 **Categoria:** Desempenho  
-**Descrição:** O sistema deve apresentar o resultado da consulta de proveniência em até 2 segundos para 95% das requisições, sob carga operacional definida.  
-**Justificativa:** Consultas de proveniência são a principal interface pública da plataforma e precisam ser ágeis para adoção de mercado.  
-**Métrica/Critério mensurável:** Tempo de resposta medido em testes de carga.  
-**Escopo:** RF-007 (Consultar proveniência).  
+**Descrição:** Exibir resultado de proveniência em até 2 segundos em 95% das requisições, sob carga de teste acordada.  
+**Justificativa:** Consultas frequentes precisam ser rápidas.  
+**Métrica/Critério mensurável:** p95 ≤ 2 s em cenário de carga definido antes da homologação.  
+**Escopo:** Consulta de proveniência  
 **Prioridade:** Alta  
 **Status:** Proposto  
 **Requisitos relacionados:** RF-007  
-**Casos de teste relacionados:** --  
+**Casos de uso relacionados:** UC-08  
 
 ---
 
-### RNF-003 — Confirmação de eventos em blockchain
+### RNF-004 — Confirmação de eventos em blockchain
 
-**Categoria:** Confiabilidade  
-**Descrição:** O sistema deve confirmar o registro de eventos críticos (registro de obra, emissão de chave, transferência) na blockchain em até 60 segundos.  
-**Justificativa:** Garantir previsibilidade de tempo para os usuários finais durante operações críticas.  
-**Métrica/Critério mensurável:** Tempo entre submissão do evento e confirmação na blockchain, medido em logs.  
-**Escopo:** RF-002, RF-004, RF-006.  
-**Prioridade:** Alta  
+**Categoria:** Integração e confiabilidade  
+**Descrição:** Informar o estado pendente/confirmado de registro, chave e transferência, sem tratar transação pendente como concluída.  
+**Justificativa:** Evitar inconsistências por latência da rede.  
+**Métrica/Critério mensurável:** 100% dos eventos exibem status consistente; testes com confirmação atrasada não concluem operação antes do retorno da rede.  
+**Escopo:** Registro, emissão e transferência  
+**Prioridade:** Crítica  
 **Status:** Proposto  
 **Requisitos relacionados:** RF-002, RF-004, RF-006  
-**Casos de teste relacionados:** --
+**Casos de uso relacionados:** UC-03, UC-05, UC-07  
 
 ---
 
-### RNF-004 — Imutabilidade da trilha de auditoria
+### RNF-005 — Retenção e permanência da auditoria
 
-**Categoria:** Segurança  
-**Descrição:** Os registros de auditoria não podem ser alterados ou removidos após sua criação, por nenhum papel de usuário, incluindo Administrador.  
-**Justificativa:** Garantir integridade probatória do histórico da plataforma.  
-**Métrica/Critério mensurável:** Testes de tentativa de alteração/remoção de log devem sempre falhar e gerar novo evento de auditoria.  
-**Escopo:** Todo o sistema.  
-**Prioridade:** Crítica  
-
----
-
-### RNF-005 — Disponibilidade da plataforma
-
-**Categoria:** Disponibilidade  
-**Descrição:** O sistema deve manter disponibilidade mínima de 99,5% ao mês para as funcionalidades de consulta e validação de autenticidade.  
-**Justificativa:** São as funcionalidades mais acessadas por público externo (compradores, curadores, imprensa).  
-**Métrica/Critério mensurável:** Monitoramento de uptime mensal.  
-**Escopo:** RF-005, RF-007.  
+**Categoria:** Retenção de dados  
+**Descrição:** Preservar evidências de integridade em armazenamento persistente por prazo indeterminado; dados pessoais de logs devem observar política de retenção e exclusão aplicável.  
+**Justificativa:** Atender rastreabilidade sem presumir retenção irrestrita de dados pessoais.  
+**Métrica/Critério mensurável:** 100% dos eventos persistem após reinício e restauração; política de retenção documentada antes da produção.  
+**Escopo:** Trilhas e bases de auditoria  
 **Prioridade:** Alta  
 **Status:** Proposto  
-**Requisitos relacionados:** RF-005, RF-007  
-**Casos de teste relacionados:** --  
+**Requisitos relacionados:** RF-010, RF-015  
+**Casos de uso relacionados:** UC-11, UC-13  
+
+---
+
+### RNF-006 — Disponibilidade da plataforma
+
+**Categoria:** Disponibilidade  
+**Descrição:** Manter serviços principais disponíveis com meta inicial de 99,5% por mês, excluindo janelas programadas comunicadas.  
+**Justificativa:** Dar continuidade ao uso da galeria.  
+**Métrica/Critério mensurável:** Disponibilidade mensal ≥ 99,5% registrada por monitoramento.  
+**Escopo:** Serviços web e API  
+**Prioridade:** Alta  
+**Status:** Proposto  
+**Requisitos relacionados:** RF-001, RF-007, RF-011  
+**Casos de uso relacionados:** UC-01, UC-08, UC-14  
+
+---
+
+### RNF-007 — Restrição de acesso de usuários não cadastrados
+
+**Categoria:** Segurança  
+**Descrição:** Usuários sem conta podem acessar somente catálogo público e dados liberados para publicação.  
+**Justificativa:** Proteger recursos restritos.  
+**Métrica/Critério mensurável:** 100% das chamadas protegidas rejeitam sessões não cadastradas em testes de autorização.  
+**Escopo:** Catálogo e serviços privados  
+**Prioridade:** Crítica  
+**Status:** Proposto  
+**Requisitos relacionados:** RF-011, RF-007  
+**Casos de uso relacionados:** UC-08, UC-14  
+
+---
+
+### RNF-008 — Proteção de dados sensíveis sem login
+
+**Categoria:** Privacidade  
+**Descrição:** Visitantes não podem consultar identidade, contratos, documentos nem informações confidenciais da obra ou das partes.  
+**Justificativa:** Resguardar pessoas e negociações.  
+**Métrica/Critério mensurável:** 0 campos sensíveis retornados por endpoints públicos nos testes.  
+**Escopo:** Consulta de obra, proveniência e catálogo  
+**Prioridade:** Crítica  
+**Status:** Proposto  
+**Requisitos relacionados:** RF-007, RF-011  
+**Casos de uso relacionados:** UC-08, UC-14  
+
+---
+
+### RNF-009 — Integridade e backup dos arquivos
+
+**Categoria:** Confiabilidade  
+**Descrição:** Documentos, laudos e imagens devem possuir verificação por hash e cópia recuperável; armazenamento descentralizado recebe somente conteúdo autorizado.  
+**Justificativa:** Evitar perda ou adulteração de evidências.  
+**Métrica/Critério mensurável:** Conferência de hash em 100% dos downloads auditados e teste de recuperação trimestral bem-sucedido.  
+**Escopo:** Arquivos de obra e certificação  
+**Prioridade:** Alta  
+**Status:** Proposto  
+**Requisitos relacionados:** RF-002, RF-003  
+**Casos de uso relacionados:** UC-03, UC-04  
+
+---
+
+### RNF-010 — Auditoria de alterações de permissões
+
+**Categoria:** Segurança  
+**Descrição:** Toda criação, elevação ou revogação de privilégios deve registrar autoria, justificativa e horário.  
+**Justificativa:** Detectar uso indevido de contas privilegiadas.  
+**Métrica/Critério mensurável:** 100% das alterações de permissão geram evento consultável.  
+**Escopo:** Administração de usuários  
+**Prioridade:** Crítica  
+**Status:** Proposto  
+**Requisitos relacionados:** RF-008, RF-015  
+**Casos de uso relacionados:** UC-09, UC-10, UC-11  
+
+---
+
+### RNF-011 — Proteção de credenciais e sessão
+
+**Categoria:** Segurança  
+**Descrição:** Senhas devem ser armazenadas com hash seguro e sessões devem expirar e permitir revogação.  
+**Justificativa:** Reduzir acessos não autorizados.  
+**Métrica/Critério mensurável:** 0 senhas em texto claro na base; testes verificam expiração e bloqueio após desativação.  
+**Escopo:** Cadastro e login  
+**Prioridade:** Crítica  
+**Status:** Proposto  
+**Requisitos relacionados:** RF-001, RF-010  
+**Casos de uso relacionados:** UC-01, UC-13  
+
+---
+
+---
+
+## 4. Casos de Uso (UC)
+
+### 4.1 Identificação dos atores
+
+Um ator é uma pessoa ou organização externa que interage diretamente com a plataforma. Blockchain, armazenamento descentralizado, base privada e auditoria são componentes internos, não atores.
+
+| Ator | Papel no negócio | Por que é ator |
+|---|---|---|
+| **Artista** | Registra obras e comprova autoria/titularidade | Solicita cadastro, registro e atualização de obras |
+| **Galeria** | Gerencia portfólio e intermedia movimentações | Opera cadastro, publicação e transferência autorizados |
+| **Certificador** | Emite laudos de autenticidade | Avalia obras e emite certificações após credenciamento |
+| **Colecionador** | Consulta, solicita compra e transfere obras | Usa os serviços de proveniência e titularidade |
+| **Administrador** | Credencia, controla acessos e audita | Governa os usuários e operações da plataforma |
+| **Público não logado** | Consulta catálogo público | Acessa informações publicadas sem autenticação |
+
+**Observação:** uma galeria pode atuar também como certificadora apenas quando possuir credenciamento vigente (RN-004). Isso é uma permissão adicional, não um novo ator obrigatório.
+
+---
+
+### 4.2 Índice de casos de uso
+
+| ID | Nome | Ator principal | RF relacionado | RN relacionada(s) |
+|---|---|---|---|---|
+| UC-01 | Autenticar-se na plataforma | Artista, Galeria, Certificador, Colecionador, Administrador | RF-001 | RN-007 |
+| UC-02 | Cadastrar dados de identidade | Artista, Galeria, Certificador, Colecionador, Administrador | RF-001 | RN-007 |
+| UC-03 | Registrar obra | Artista, Galeria | RF-002 | RN-005, RN-011 |
+| UC-04 | Emitir certificação (laudo) | Certificador, Galeria credenciada | RF-003 | RN-004, RN-006 |
+| UC-05 | Emitir chave de autenticidade | Artista, Galeria | RF-004 | RN-001, RN-006 |
+| UC-06 | Validar autenticidade | Colecionador, Certificador | RF-005 | RN-006, RN-007 |
+| UC-07 | Transferir titularidade | Colecionador, Galeria | RF-006 | RN-002, RN-008 |
+| UC-08 | Consultar proveniência | Colecionador, Galeria, Artista, Público não logado | RF-007 | RN-003, RN-009 |
+| UC-09 | Credenciar certificador | Administrador | RF-008 | RN-004, RN-007 |
+| UC-10 | Gerenciar acessos de usuários | Administrador | RF-008 | RN-007, RN-008 |
+| UC-11 | Consultar trilha de auditoria | Administrador | RF-015 | RN-008, RN-009 |
+| UC-12 | Validar identidade de usuário | Administrador | RF-009 | RN-007 |
+| UC-13 | Desativar ou excluir conta | Administrador | RF-010 | RN-012, RN-008 |
+| UC-14 | Consultar catálogo público | Público não logado, Colecionador | RF-011 | RN-003, RN-007 |
+| UC-15 | Solicitar aquisição de obra | Colecionador | RF-012 | RN-013 |
+| UC-16 | Renovar registro da obra | Colecionador, Artista, Galeria | RF-013 | RN-010, RN-008 |
+| UC-17 | Solicitar certificação vitalícia | Colecionador, Artista, Galeria, Certificador | RF-014 | RN-010, RN-004 |
+| UC-18 | Gerenciar portfólio da galeria | Galeria | RF-016 | RN-011, RN-007 |
+
+---
+
+### 4.3 Detalhamento dos casos de uso
+
+#### UC-01 — Autenticar-se na plataforma
+
+**Ator:** Artista, Galeria, Certificador, Colecionador, Administrador.
+
+**Objetivo:** Entrar no sistema.
+
+**Pré-condições:** Conta ativa.
+
+**Fluxo principal:**
+1. Ator informa e-mail e senha.
+2. Sistema valida credenciais e status da conta.
+3. Sistema abre sessão com permissões do perfil.
+
+**Fluxos alternativos/exceções:**
+- Credenciais inválidas ou conta bloqueada: negar acesso.
+
+**Pós-condições:** Sessão autenticada.
+
+**Regras de negócio relacionadas:** RN-007.
+
+---
+
+#### UC-02 — Cadastrar dados de identidade
+
+**Ator:** Artista, Galeria, Certificador, Colecionador, Administrador.
+
+**Objetivo:** Criar conta.
+
+**Pré-condições:** Nenhuma.
+
+**Fluxo principal:**
+1. Ator solicita cadastro e informa dados básicos.
+2. Sistema valida os campos e cria cadastro privado.
+3. Sistema confirma o cadastro e informa eventual pendência de identidade.
+
+**Fluxos alternativos/exceções:**
+- Documento/e-mail inválido ou já usado: solicitar correção.
+
+**Pós-condições:** Conta criada, ainda sujeita a verificação.
+
+**Regras de negócio relacionadas:** RN-007.
+
+---
+
+#### UC-03 — Registrar obra
+
+**Ator:** Artista, Galeria.
+
+**Objetivo:** Cadastrar obra rastreável.
+
+**Pré-condições:** Conta ativa e autorização de registro.
+
+**Fluxo principal:**
+1. Ator informa dados da obra e titularidade.
+2. Sistema valida dados, identifica duplicidades e gera ID/hash.
+3. Sistema armazena arquivos autorizados e registra o evento.
+
+**Fluxos alternativos/exceções:**
+- Obra já registrada ou titularidade não comprovada: rejeitar.
+
+**Pós-condições:** Obra cadastrada para certificação.
+
+**Regras de negócio relacionadas:** RN-005, RN-011.
+
+---
+
+#### UC-04 — Emitir certificação (laudo)
+
+**Ator:** Certificador, Galeria credenciada.
+
+**Objetivo:** Anexar laudo válido.
+
+**Pré-condições:** Obra existente e certificador ativo.
+
+**Fluxo principal:**
+1. Certificador acessa a obra e informa avaliação.
+2. Sistema verifica credenciamento e dados.
+3. Certificador assina e sistema registra o laudo.
+
+**Fluxos alternativos/exceções:**
+- Credenciamento inativo ou parecer reprovado: não emitir laudo aprovado.
+
+**Pós-condições:** Laudo vinculado à obra.
+
+**Regras de negócio relacionadas:** RN-004, RN-006.
+
+---
+
+#### UC-05 — Emitir chave de autenticidade
+
+**Ator:** Artista, Galeria.
+
+**Objetivo:** Gerar chave de obra certificada.
+
+**Pré-condições:** Registro completo e laudo válido.
+
+**Fluxo principal:**
+1. Ator solicita chave para a obra.
+2. Sistema verifica certificado e vínculo.
+3. Sistema emite chave e acompanha confirmação em blockchain.
+
+**Fluxos alternativos/exceções:**
+- Sem laudo ou evento não confirmado: impedir conclusão.
+
+**Pós-condições:** Chave confirmada ou operação pendente.
+
+**Regras de negócio relacionadas:** RN-001, RN-006.
+
+---
+
+#### UC-06 — Validar autenticidade
+
+**Ator:** Colecionador, Certificador.
+
+**Objetivo:** Conferir autenticidade de obra.
+
+**Pré-condições:** Chave/obra identificável.
+
+**Fluxo principal:**
+1. Ator informa chave ou ID da obra.
+2. Sistema confere laudo, hash e confirmação.
+3. Sistema apresenta status e motivo resumido.
+
+**Fluxos alternativos/exceções:**
+- Chave inválida, revogada ou pendente: indicar estado correto.
+
+**Pós-condições:** Resultado da validação exibido.
+
+**Regras de negócio relacionadas:** RN-006, RN-007.
+
+---
+
+#### UC-07 — Transferir titularidade
+
+**Ator:** Colecionador, Galeria.
+
+**Objetivo:** Trocar titular da obra.
+
+**Pré-condições:** Identidades verificadas e acordo comprovado.
+
+**Fluxo principal:**
+1. Ator inicia transferência e informa novo titular.
+2. Sistema valida titular anterior e consentimentos.
+3. Sistema grava evento e confirma novo titular após validação da rede.
+
+**Fluxos alternativos/exceções:**
+- Falta de anuência ou disputa: bloquear.
+
+**Pós-condições:** Novo titular registrado e histórico preservado.
+
+**Regras de negócio relacionadas:** RN-002, RN-008.
+
+---
+
+#### UC-08 — Consultar proveniência
+
+**Ator:** Colecionador, Galeria, Artista, Público não logado.
+
+**Objetivo:** Consultar histórico autorizado de obra.
+
+**Pré-condições:** Obra registrada.
+
+**Fluxo principal:**
+1. Ator informa a obra.
+2. Sistema obtém eventos de origem e transferência.
+3. Sistema aplica regras de privacidade e apresenta histórico.
+
+**Fluxos alternativos/exceções:**
+- Sem autorização: exibir apenas conteúdo público.
+
+**Pós-condições:** Histórico permitido apresentado.
+
+**Regras de negócio relacionadas:** RN-003, RN-009.
+
+---
+
+#### UC-09 — Credenciar certificador
+
+**Ator:** Administrador.
+
+**Objetivo:** Habilitar perfil de certificação.
+
+**Pré-condições:** Administrador autenticado e documentos recebidos.
+
+**Fluxo principal:**
+1. Administrador analisa credenciais do candidato.
+2. Sistema registra aprovação ou reprovação.
+3. Sistema atualiza o perfil e audita a decisão.
+
+**Fluxos alternativos/exceções:**
+- Credenciais insuficientes: manter pendente/rejeitado.
+
+**Pós-condições:** Credenciamento atualizado.
+
+**Regras de negócio relacionadas:** RN-004, RN-007.
+
+---
+
+#### UC-10 — Gerenciar acessos de usuários
+
+**Ator:** Administrador.
+
+**Objetivo:** Ajustar perfis e permissões.
+
+**Pré-condições:** Administrador autenticado.
+
+**Fluxo principal:**
+1. Administrador seleciona usuário e alteração.
+2. Sistema valida privilégio e justificativa.
+3. Sistema aplica alteração e registra auditoria.
+
+**Fluxos alternativos/exceções:**
+- Sem permissão ou dado inválido: negar mudança.
+
+**Pós-condições:** Permissões atualizadas.
+
+**Regras de negócio relacionadas:** RN-007, RN-008.
+
+---
+
+#### UC-11 — Consultar trilha de auditoria
+
+**Ator:** Administrador.
+
+**Objetivo:** Fiscalizar operações críticas.
+
+**Pré-condições:** Administrador com autorização.
+
+**Fluxo principal:**
+1. Administrador filtra eventos por período, ação ou obra.
+2. Sistema consulta histórico persistente.
+3. Sistema apresenta registros e evidências de integridade.
+
+**Fluxos alternativos/exceções:**
+- Usuário não autorizado: negar consulta.
+
+**Pós-condições:** Auditoria consultada sem modificações.
+
+**Regras de negócio relacionadas:** RN-008, RN-009.
+
+---
+
+#### UC-12 — Validar identidade de usuário
+
+**Ator:** Administrador.
+
+**Objetivo:** Aprovar identidade para operações críticas.
+
+**Pré-condições:** Conta cadastrada e documentos enviados.
+
+**Fluxo principal:**
+1. Administrador abre solicitação de verificação.
+2. Sistema mostra documentos restritos.
+3. Administrador aprova ou rejeita com justificativa.
+
+**Fluxos alternativos/exceções:**
+- Documento inconsistente: marcar como rejeitado.
+
+**Pós-condições:** Status da identidade atualizado.
+
+**Regras de negócio relacionadas:** RN-007.
+
+---
+
+#### UC-13 — Desativar ou excluir conta
+
+**Ator:** Administrador.
+
+**Objetivo:** Encerrar acesso de conta.
+
+**Pré-condições:** Conta existente.
+
+**Fluxo principal:**
+1. Administrador seleciona conta e motivo.
+2. Sistema revoga sessão e desativa acesso.
+3. Sistema anonimiza/exclui dados permitidos e registra evento.
+
+**Fluxos alternativos/exceções:**
+- Pendência legal: conservar apenas dados necessários, com acesso restrito.
+
+**Pós-condições:** Conta sem acesso; histórico necessário preservado.
+
+**Regras de negócio relacionadas:** RN-012, RN-008.
+
+---
+
+#### UC-14 — Consultar catálogo público
+
+**Ator:** Público não logado, Colecionador.
+
+**Objetivo:** Navegar por obras publicadas.
+
+**Pré-condições:** Nenhuma.
+
+**Fluxo principal:**
+1. Ator acessa catálogo e define filtro.
+2. Sistema busca obras públicas.
+3. Sistema apresenta dados e imagens autorizados.
+
+**Fluxos alternativos/exceções:**
+- Obra restrita: não exibir informações privadas.
+
+**Pós-condições:** Catálogo exibido.
+
+**Regras de negócio relacionadas:** RN-003, RN-007.
+
+---
+
+#### UC-15 — Solicitar aquisição de obra
+
+**Ator:** Colecionador.
+
+**Objetivo:** Demonstrar interesse na compra de obra.
+
+**Pré-condições:** Conta ativa e obra disponível.
+
+**Fluxo principal:**
+1. Colecionador escolhe obra e solicita aquisição.
+2. Sistema cria pedido e avisa a galeria.
+3. Galeria aceita ou rejeita e sistema atualiza o pedido.
+
+**Fluxos alternativos/exceções:**
+- Indisponibilidade: impedir abertura do pedido.
+
+**Pós-condições:** Pedido com estado atualizado; titularidade inalterada.
+
+**Regras de negócio relacionadas:** RN-013.
+
+---
+
+#### UC-16 — Renovar registro da obra
+
+**Ator:** Colecionador, Artista, Galeria.
+
+**Objetivo:** Atualizar registro sem perder versões anteriores.
+
+**Pré-condições:** Titular/autorizado e obra existente.
+
+**Fluxo principal:**
+1. Ator informa os dados a atualizar.
+2. Sistema valida direito de alteração.
+3. Sistema grava nova versão e evento histórico.
+
+**Fluxos alternativos/exceções:**
+- Dados inválidos ou não autorizado: recusar.
+
+**Pós-condições:** Registro atualizado e histórico preservado.
+
+**Regras de negócio relacionadas:** RN-010, RN-008.
+
+---
+
+#### UC-17 — Solicitar certificação vitalícia
+
+**Ator:** Colecionador, Artista, Galeria, Certificador.
+
+**Objetivo:** Emitir certificado vitalício da obra.
+
+**Pré-condições:** Obra e laudo válido, certificador credenciado.
+
+**Fluxo principal:**
+1. Interessado solicita certificação vitalícia.
+2. Sistema valida laudo e credenciamento.
+3. Certificador aprova e sistema registra certificado.
+
+**Fluxos alternativos/exceções:**
+- Ausência de laudo válido: recusar solicitação.
+
+**Pós-condições:** Certificado vitalício registrado, sujeito a revogação fundamentada.
+
+**Regras de negócio relacionadas:** RN-010, RN-004.
+
+---
+
+#### UC-18 — Gerenciar portfólio da galeria
+
+**Ator:** Galeria.
+
+**Objetivo:** Publicar obra no acervo da galeria.
+
+**Pré-condições:** Obra cadastrada e autorização do responsável.
+
+**Fluxo principal:**
+1. Galeria seleciona obra para seu portfólio.
+2. Sistema verifica vínculo e autorização.
+3. Sistema inclui ou retira obra do catálogo da galeria.
+
+**Fluxos alternativos/exceções:**
+- Sem autorização: bloquear publicação.
+
+**Pós-condições:** Portfólio atualizado sem excluir registro original.
+
+**Regras de negócio relacionadas:** RN-011, RN-007.
+
+---
