@@ -1,7 +1,6 @@
 # Autentificador de Galeria de Arte — UC-03 Registrar Obra
 
-> Projeto da disciplina [NOME DA DISCIPLINA] — UEM / ADSS.
-> Esta entrega implementa **um caso de uso completo**: **UC-03 — Registrar obra** (RF-002), com interface web, API REST e banco de dados SQL.
+> Esta entrega (nos diretórios backend, frontend e database) implementa **um caso de uso completo**: **UC-03 — Registrar obra** (RF-002), com interface web, API REST e banco de dados SQL.
 
 ## Sumário
 
@@ -41,7 +40,7 @@ Nesta etapa final, implementamos o **UC-03 — Registrar obra**: um Artista ou u
 
 | Item | Tratamento |
 |---|---|
-| Login / cadastro de conta (UC-01, UC-02) | O ator é escolhido a partir de usuários de teste (seed). Não há autenticação real. |
+| Login / cadastro de conta (UC-01, UC-02) | O ator é escolhido a partir de usuários de teste (seed). Não há autenticação real (conforme o professor solicitou, não fizemos implementação de tela de login). |
 | Blockchain e armazenamento descentralizado | **Simulados.** O evento é gravado com status `PENDENTE`; a integração real fica como evolução. |
 | Certificação, chave de autenticidade, transferência, aquisição | Outros casos de uso, não implementados. |
 | Pagamentos | Fora do escopo do produto nesta versão (RN-013). |
@@ -52,8 +51,8 @@ Nesta etapa final, implementamos o **UC-03 — Registrar obra**: um Artista ou u
 |---|---|
 | Caso de uso | UC-03 — Registrar obra |
 | Requisito funcional | RF-002 |
-| Regras de negócio | RN-005 (ID único e hash), RN-008 (auditoria), RN-011 (artista principal e portfólio) |
-| Requisitos não funcionais atendidos | RNF-001 (dados pessoais fora da camada de evidência), RNF-002 (auditoria imutável), RNF-004 (estado pendente/confirmado), RNF-009 (hash de arquivos) |
+| Regras de negócio | RN-005 (unicidade do ID e do Hash da obra), RN-008 (auditoria: mantém rastreáveis todas as operações sensíveis realizadas com as obras), RN-011 (artista principal único para cada obra e inclusão da obra no portfólio) |
+| Requisitos não funcionais atendidos | RNF-001 (dados pessoais fora da camada de evidência - os dados originais dos usuários permanecem protegidos), RNF-002 (auditoria imutável - nenhum usuário pode alterar eventos de auditoria uma vez que eles são concluídos), RNF-004 (estado pendente/confirmado), RNF-009 (hash de arquivos) |
 
 **Fluxo principal (UC-03):**
 
