@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 
 import { HealthController } from './health.controller';
 import { SupabaseModule } from './supabase/supabase.module';
+import { HashModule } from './hash/hash.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { SupabaseModule } from './supabase/supabase.module';
       isGlobal: true,
     }),
     SupabaseModule,
+    HashModule,
   ],
 
   controllers: [
