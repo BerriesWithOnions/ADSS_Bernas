@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 
 import { SupabaseService } from '../supabase/supabase.service';
@@ -50,6 +51,25 @@ async listar(artistaId?: string, titulo?: string, status?: string) {
 
   if (error) {
     throw new InternalServerErrorException('Não foi possível listar as obras.');
+  }
+
+  return data;
+}
+
+async detalhar(id: string) {
+  const { data, error } = await this.supabase.client
+    .from('obra')
+    .select('*, arquivos:arquivo_obra(*), eventos:evento_auditoria(*)')
+    .eq('id', id)
+    .is('excluida_em', null)
+    .maybeSingle();
+
+  if (error) {
+    throw new InternalServerErrorException('Não foi possível consultar a obra.');
+  }
+
+  if (!data) {
+    throw new NotFoundException('Obra não encontrada.');
   }
 
   return data;

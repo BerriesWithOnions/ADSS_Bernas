@@ -1,4 +1,4 @@
-import { Controller, Get, ParseUUIDPipe, Query } from '@nestjs/common';
+import { Controller, Get, ParseUUIDPipe, Query, Param } from '@nestjs/common';
 import { ObrasService } from './obras.service';
 
 @Controller('obras')
@@ -14,4 +14,9 @@ export class ObrasController {
   ) {
     return this.obras.listar(artistaId, titulo, status);
   }
+
+  @Get(':id')
+  detalhar(@Param('id', ParseUUIDPipe) id: string) {
+    return this.obras.detalhar(id);
+}
 }
