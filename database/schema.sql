@@ -22,6 +22,9 @@ CREATE TABLE IF NOT EXISTS public.obra (
 
     titulo TEXT NOT NULL,
     artista TEXT NOT NULL,
+    artista_id UUID REFERENCES public.usuario(id),
+    status TEXT DEFAULT 'PENDENTE'
+        CHECK (status IN ('PENDENTE', 'CONFIRMADO')),
     descricao TEXT,
     tecnica TEXT,
     ano_criacao INTEGER,
