@@ -3,3 +3,11 @@
 .env.development.local
 .env.test.local
 .env.production.local
+**/node_modules/
+**/dist/
+**/.env
+**/.env.*
+!**/.env.example
+**/build/
+**/*.tsbuildinfo
+**/*.log
