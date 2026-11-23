@@ -1,4 +1,14 @@
-import { Controller, Get, ParseUUIDPipe, Query, Param } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  ParseUUIDPipe,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { PermissaoGuard } from '../common/guards/permissao.guard';
 import { ObrasService } from './obras.service';
 
 @Controller('obras')
@@ -19,4 +29,10 @@ export class ObrasController {
   detalhar(@Param('id', ParseUUIDPipe) id: string) {
     return this.obras.detalhar(id);
 }
+  @Delete(':id')
+  @HttpCode(204)
+  @UseGuards(PermissaoGuard)
+  async excluir(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    await this.obras.excluir(id);
+  }
 }
