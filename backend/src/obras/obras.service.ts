@@ -75,6 +75,24 @@ async detalhar(id: string) {
   return data;
 }
 
+async excluir(id: string): Promise<void> {
+  const { data, error } = await this.supabase.client
+    .from('obra')
+    .update({ excluida_em: new Date().toISOString() })
+    .eq('id', id)
+    .is('excluida_em', null)
+    .select('id')
+    .maybeSingle();
+
+  if (error) {
+    throw new InternalServerErrorException('Não foi possível excluir a obra.');
+  }
+
+  if (!data) {
+    throw new NotFoundException('Obra não encontrada.');
+  }
+}
+
   async registrarObra(dados: Record<string, unknown>) {
     const { hash_conteudo, ...camposObra } = dados;
 
