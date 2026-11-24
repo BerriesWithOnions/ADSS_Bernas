@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { HealthController } from './health.controller';
 import { SupabaseModule } from './supabase/supabase.module';
 import { HashModule } from './hash/hash.module';
+import { AuditoriaModule } from './auditoria/auditoria.module';
 import { ObrasModule } from './obras/obras.module';
 
 @Module({
