@@ -48,4 +48,31 @@ describe('HashService', () => {
       service.gerarHashJson(undefined),
     ).toThrow(BadRequestException);
   });
+
+  describe('gerarHashArquivo', () => {
+    it('gera o SHA-256 conhecido para "abc"', () => {
+      expect(service.gerarHashArquivo(Buffer.from('abc'))).toBe(
+        'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad',
+      );
+    });
+
+    it('gera o mesmo hash para o mesmo conteudo', () => {
+      const a = service.gerarHashArquivo(Buffer.from([1, 2, 3, 4]));
+      const b = service.gerarHashArquivo(Buffer.from([1, 2, 3, 4]));
+      expect(a).toBe(b);
+      expect(a).toMatch(/^[0-9a-f]{64}$/);
+    });
+
+    it('gera hashes diferentes se um unico byte mudar', () => {
+      const a = service.gerarHashArquivo(Buffer.from([1, 2, 3, 4]));
+      const b = service.gerarHashArquivo(Buffer.from([1, 2, 3, 5]));
+      expect(a).not.toBe(b);
+    });
+
+    it('rejeita arquivo vazio', () => {
+      expect(() => service.gerarHashArquivo(Buffer.alloc(0)))
+        .toThrow(BadRequestException);
+    });
+  });
+
 });
