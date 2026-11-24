@@ -7,8 +7,8 @@ ALTER TABLE public.obra
     ADD COLUMN IF NOT EXISTS largura_cm NUMERIC(10,2) CHECK (largura_cm > 0),
     ADD COLUMN IF NOT EXISTS profundidade_cm NUMERIC(10,2) CHECK (profundidade_cm > 0),
     ADD COLUMN IF NOT EXISTS data_criacao DATE,
-    ADD COLUMN IF NOT EXISTS status_registro TEXT NOT NULL DEFAULT 'PENDENTE'
-        CHECK (status_registro IN ('PENDENTE', 'CONFIRMADO'));
+    ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'PENDENTE'
+        CHECK (status IN ('PENDENTE', 'CONFIRMADO'));
 
 -- Evento de auditoria: blockchain é simulada, então todo evento nasce PENDENTE (RNF-004).
 ALTER TABLE public.evento_auditoria
