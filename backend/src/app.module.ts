@@ -10,6 +10,8 @@ import { SupabaseModule } from './supabase/supabase.module';
 import { HashModule } from './hash/hash.module';
 import { ObrasModule } from './obras/obras.module';
 
+import { AuditoriaModule } from './auditoria/auditoria.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -18,6 +20,7 @@ import { ObrasModule } from './obras/obras.module';
     SupabaseModule,
     HashModule,
     ObrasModule,
+    AuditoriaModule,
   ],
 
   controllers: [
