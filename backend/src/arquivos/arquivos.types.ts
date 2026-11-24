@@ -10,3 +10,27 @@ export interface ArquivoRecebido {
   size: number;
   buffer: Buffer;
 }
+
+// Arquivo ja validado e com hash calculado, pronto para o Storage.
+export interface ArquivoPreparado {
+  categoria: CategoriaArquivo;
+  nomeOriginal: string;
+  mimeType: string;
+  tamanhoBytes: number;
+  hashArquivo: string;
+  buffer: Buffer;
+}
+
+// Linha gravada em public.arquivo_obra
+export interface ArquivoObraRegistro {
+  id: string;
+  obra_id: string;
+  categoria: CategoriaArquivo;
+  bucket: string;
+  caminho_storage: string;
+  nome_original: string;
+  mime_type: string;
+  tamanho_bytes: number;
+  hash_arquivo: string;
+  criado_em: string;
+}

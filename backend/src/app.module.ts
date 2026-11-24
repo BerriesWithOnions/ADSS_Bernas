@@ -12,6 +12,8 @@ import { ObrasModule } from './obras/obras.module';
 
 import { AuditoriaModule } from './auditoria/auditoria.module';
 
+import { ArquivosModule } from './arquivos/arquivos.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,6 +23,7 @@ import { AuditoriaModule } from './auditoria/auditoria.module';
     HashModule,
     ObrasModule,
     AuditoriaModule,
+    ArquivosModule,
   ],
 
   controllers: [
