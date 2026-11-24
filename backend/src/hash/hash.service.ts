@@ -30,4 +30,16 @@ export class HashService {
       .update(jsonCanonico, 'utf8')
       .digest('hex');
   }
+  // AT-60 / RNF-009: SHA-256 do conteudo binario do arquivo.
+  gerarHashArquivo(conteudo: Buffer | Uint8Array): string {
+    if (!conteudo || conteudo.length === 0) {
+      throw new BadRequestException(
+        'Arquivo vazio: nao e possivel calcular o hash',
+      );
+    }
+
+    return createHash('sha256')
+      .update(conteudo)
+      .digest('hex');
+  }
 }
