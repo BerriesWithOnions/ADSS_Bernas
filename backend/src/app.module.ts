@@ -11,6 +11,10 @@ import { HashModule } from './hash/hash.module';
 import { AuditoriaModule } from './auditoria/auditoria.module';
 import { ObrasModule } from './obras/obras.module';
 
+import { TitularidadeService } from './obras/titularidade.service';
+import { ObrasService } from './obras/obras.service';
+import { ObrasEdicaoService } from './obras/obras-edicao.service';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -26,8 +30,9 @@ import { ObrasModule } from './obras/obras.module';
     HealthController,
   ],
 
-  providers: [
-    AppService,
+  providers: [ ObrasService, ObrasEdicaoService, TitularidadeService,
   ],
+
+  exports: [ObrasService, ObrasEdicaoService, TitularidadeService],
 })
 export class AppModule {}
